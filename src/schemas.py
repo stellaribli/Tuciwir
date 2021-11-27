@@ -99,6 +99,3 @@ class User(BaseModel):
 class UserInDB(User):
     hashed_password: str
 
-class GenderEnum(enum.Enum):
-    Male = "Male"
-    Female = "Female"
