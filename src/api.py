@@ -205,3 +205,15 @@ async def get_all_review():
     return result
 
 
+@app.get("/paket-of-booking/")
+async def get_paket_of_booking(booking_id: int):
+    formula = 'select p."ID_Paket", p.jumlah_cv, p.harga, p.durasi from booking b, paket p where b."ID_Paket" = p."ID_Paket" and b."ID_Booking" = %s'
+    try:
+        cur.execute(formula, booking_id)
+        result = cur.fetch
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+		    status_code=404, detail=f'Query Error!')
+    
+
