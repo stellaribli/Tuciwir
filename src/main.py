@@ -1,29 +1,15 @@
 import sys
+# import design
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication, QWidget, QLabel, QMainWindow
+from PyQt5.QtWidgets import QDialog, QApplication, QWidget, QLabel, QMainWindow, QMessageBox, QCheckBox
+from PyQt5 import QtGui, QtCore
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 from re import search
 from typing import List
-# from fastapi import Depends, FastAPI, HTTPException, UploadFile, File
-# from sqlalchemy.orm import Session
-# import psycopg2
-# import sys
-# sys.path.insert(0, './src')
-# import models
-# import schemas
-# from database import db
-# from fastapi.responses import FileResponse
-# import shutil
-# import json
-# import os
-# import os.path
 import requests
-
-class Test(QDialog):
-    def __init__(self):
-        super(Test,self).__init__()
-        loadUi('login.ui',self)    
 
 class Login(QDialog):
     def __init__(self):
@@ -38,8 +24,6 @@ class Login(QDialog):
         password=self.password.text()
         print("Successfully logged in with email: ", email, "and password:", password)
         return
-        # data = requests.get('http://127.0.0.1:8000/booking')
-        # print(data.json())
 
     def gotocreate(self):
         createacc=CreateAcc()
@@ -56,36 +40,38 @@ class CreateAcc(QDialog):
         self.confirmpass.setEchoMode(QtWidgets.QLineEdit.Password)
         self.loginaccbutton.clicked.connect(self.gotologin)
 
-
     def createaccfunction(self):
+        jeniskelamin = ""
+        if self.Female.isChecked():
+            jeniskelamin = "Female"
+        elif self.Male.isChecked():
+            jeniskelamin = "Male"
+
         if self.password.text()==self.confirmpass.text():
+            print(jeniskelamin)
             namalengkap = self.namalengkap.text()
             email = self.email.text()
             year = self.year.text()
             month = self.month.text()
             date = self.date.text()
-            jeniskelamin = self.jeniskelamin.text()
             nomorhp = self.nomorhp.text()
             password=self.password.text()
             confirmpass = self.confirmpass.text()
-
-            url = 'http://127.0.0.1:8000/registerSQL?name=' + namalengkap + '&email=' + email + '&password=' + password + '&reenterpass=' + confirmpass + '&noHP=' + nomorhp + '&year=' + year + '&month=' + month + '&date=' + date + '&gender=' + jeniskelamin
-            requests.post(url)
+            # print(isChecked(self.Female))
+            # fem = self.Female.toggled.connect(lambda:self.btnstate(self.Female))
+            # url = 'http://127.0.0.1:8000/registerSQL?name=' + namalengkap + '&email=' + email + '&password=' + password + '&reenterpass=' + confirmpass + '&noHP=' + nomorhp + '&year=' + year + '&month=' + month + '&date=' + date + '&gender=' + jeniskelamin
+            # requests.post(url)
             print("Successfully created acc with email: ", email)
-
-            # text_file = open("login.txt", "w")
-            # text_file.write(namalengkap + '\n')
-            # text_file.write(email + '\n')
-            # text_file.write(tanggallahir + '\n')
-            # text_file.write(jeniskelamin + '\n')
-            # text_file.write(nomorhp + '\n')
-            # text_file.write(password)
-            # text_file.close()
             login=Login()
             widget.addWidget(login)
             widget.setCurrentIndex(widget.currentIndex()+1)
         else:
             print("Password Berbeda!")
+            msg = QMessageBox()
+            msg.setWindowTitle("Tutorial on PyQt5")
+            msg.setText("This is the main text!")    
+            x = msg.exec_()
+
 
     def gotologin(self):
         loginacc=Login()
