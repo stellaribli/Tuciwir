@@ -5,20 +5,25 @@ from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
 from re import search
 from typing import List
-from fastapi import Depends, FastAPI, HTTPException, UploadFile, File
-from sqlalchemy.orm import Session
-import psycopg2
-import sys
-sys.path.insert(0, './src')
-import models
-import schemas
-from database import db
-from fastapi.responses import FileResponse
-import shutil
-import json
-import os
-import os.path
+# from fastapi import Depends, FastAPI, HTTPException, UploadFile, File
+# from sqlalchemy.orm import Session
+# import psycopg2
+# import sys
+# sys.path.insert(0, './src')
+# import models
+# import schemas
+# from database import db
+# from fastapi.responses import FileResponse
+# import shutil
+# import json
+# import os
+# import os.path
 import requests
+
+class Test(QDialog):
+    def __init__(self):
+        super(Test,self).__init__()
+        loadUi('login.ui',self)    
 
 class Login(QDialog):
     def __init__(self):
@@ -32,14 +37,15 @@ class Login(QDialog):
         email=self.email.text()
         password=self.password.text()
         print("Successfully logged in with email: ", email, "and password:", password)
-        
+        return
         # data = requests.get('http://127.0.0.1:8000/booking')
-        # print(data.text)
+        # print(data.json())
 
     def gotocreate(self):
         createacc=CreateAcc()
         widget.addWidget(createacc)
         widget.setCurrentIndex(widget.currentIndex()+1)
+
 
 class CreateAcc(QDialog):
     def __init__(self):
@@ -52,22 +58,29 @@ class CreateAcc(QDialog):
 
 
     def createaccfunction(self):
-        namalengkap = self.namalengkap.text()
-        email = self.email.text()
-        tanggallahir = self.tanggallahir.text()
-        jeniskelamin = self.jeniskelamin.text()
-        nomorhp = self.nomorhp.text()
         if self.password.text()==self.confirmpass.text():
+            namalengkap = self.namalengkap.text()
+            email = self.email.text()
+            year = self.year.text()
+            month = self.month.text()
+            date = self.date.text()
+            jeniskelamin = self.jeniskelamin.text()
+            nomorhp = self.nomorhp.text()
             password=self.password.text()
+            confirmpass = self.confirmpass.text()
+
+            url = 'http://127.0.0.1:8000/registerSQL?name=' + namalengkap + '&email=' + email + '&password=' + password + '&reenterpass=' + confirmpass + '&noHP=' + nomorhp + '&year=' + year + '&month=' + month + '&date=' + date + '&gender=' + jeniskelamin
+            requests.post(url)
             print("Successfully created acc with email: ", email)
-            text_file = open("login.txt", "w")
-            text_file.write(namalengkap + '\n')
-            text_file.write(email + '\n')
-            text_file.write(tanggallahir + '\n')
-            text_file.write(jeniskelamin + '\n')
-            text_file.write(nomorhp + '\n')
-            text_file.write(password)
-            text_file.close()
+
+            # text_file = open("login.txt", "w")
+            # text_file.write(namalengkap + '\n')
+            # text_file.write(email + '\n')
+            # text_file.write(tanggallahir + '\n')
+            # text_file.write(jeniskelamin + '\n')
+            # text_file.write(nomorhp + '\n')
+            # text_file.write(password)
+            # text_file.close()
             login=Login()
             widget.addWidget(login)
             widget.setCurrentIndex(widget.currentIndex()+1)
@@ -79,12 +92,8 @@ class CreateAcc(QDialog):
         widget.addWidget(loginacc)
         widget.setCurrentIndex(widget.currentIndex()+1)
 
-# @app.get("/x"):
-# async 
-
-
 app=QApplication(sys.argv)
-mainwindow=Login()
+mainwindow=CreateAcc()
 widget=QtWidgets.QStackedWidget()
 widget.addWidget(mainwindow)
 widget.setFixedWidth(1435)
