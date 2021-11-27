@@ -11,6 +11,7 @@ from re import search
 from typing import List
 import requests
 
+# prevIndex = 0
 class Login(QDialog):
     def __init__(self):
         super(Login,self).__init__()
@@ -18,6 +19,7 @@ class Login(QDialog):
         self.loginbutton.clicked.connect(self.loginfunction)
         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.createaccbutton.clicked.connect(self.gotocreate)
+        self.loginaccbutton_3.clicked.connect(self.gotoreset)
         
     def loginfunction(self):
         email=self.email.text()
@@ -26,10 +28,13 @@ class Login(QDialog):
         return
 
     def gotocreate(self):
-        createacc=CreateAcc()
-        widget.addWidget(createacc)
-        widget.setCurrentIndex(widget.currentIndex()+1)
+        prevIndex = 0
+        widget.setCurrentIndex(1)
 
+    def gotoreset(self):
+        prevIndex = 0
+        widget.setCurrentIndex(2)    
+    
 
 class CreateAcc(QDialog):
     def __init__(self):
@@ -39,6 +44,12 @@ class CreateAcc(QDialog):
         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.confirmpass.setEchoMode(QtWidgets.QLineEdit.Password)
         self.loginaccbutton.clicked.connect(self.gotologin)
+        # self.kembali.clicked.connect(self.back)
+
+    # def back(self):
+    #     a = prevIndex
+    #     prevIndex = 1
+    #     widget.setCurrentIndex(a)            
 
     def createaccfunction(self):
         jeniskelamin = ""
@@ -72,17 +83,30 @@ class CreateAcc(QDialog):
             msg.setText("This is the main text!")    
             x = msg.exec_()
 
-
     def gotologin(self):
         loginacc=Login()
-        widget.addWidget(loginacc)
-        widget.setCurrentIndex(widget.currentIndex()+1)
+        # prevIndex = 1
+        widget.setCurrentIndex(0)
+
+class ResetPassword(QDialog):
+    def __init__(self):
+        super(ResetPassword,self).__init__()
+        loadUi('resetpass.ui',self)  
+        self.kembali.clicked.connect(self.back)
+
+    def back(self):
+        prevIndex = 0
+        widget.setCurrentIndex(0) 
 
 app=QApplication(sys.argv)
 mainwindow=CreateAcc()
 widget=QtWidgets.QStackedWidget()
-widget.addWidget(mainwindow)
-widget.setFixedWidth(1435)
-widget.setFixedHeight(800)
+
+widget.addWidget(Login()) #Index jadi 0
+widget.addWidget(CreateAcc())  #Index jadi 1
+widget.addWidget(ResetPassword())  #Index jadi 2
+
+widget.setFixedWidth(1600)
+widget.setFixedHeight(900)
 widget.show()
 app.exec_()
