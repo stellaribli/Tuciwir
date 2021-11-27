@@ -21,7 +21,7 @@ from database import db
 # import os
 import os.path
 
-#     select_formula = 'SELECT "hashedPassword" FROM tuteers WHERE "ID_Tuteers" = 1;'
+#     select_formula = 'SELECT "hashed_password" FROM tuteers WHERE "ID_Tuteers" = 1;'
 #     item = cur.execute(select_formula)   
 #     result = item.fetchone()
 
@@ -81,33 +81,32 @@ def get_user(db, username: str):
         return UserInDB(**user_dict) #supposed to be hash keknya
         return (user_dict)
 
-# def get_userr(email:str):
-#     if apakahEmailExist(email):
-#         # return("Yes")
-#         user_dict = ambilSemua(email)
-#         return(UserInDB(**user_dict))
-#     else:
-#         return("No")   
+def get_userr(email:str):
+    if apakahEmailExist(email):
+        # return("Yes")
+        user_dict = ambilSemua(email)
+        return(UserInDB(**user_dict))
 
-#blm bener
-def authenticate_user(fake_db, username: str, password: str): #Login keknya
-    user = get_user(fake_db, username)
-    if not user:
-        return False
-    if not verify_password(password, user.hashed_password):
-        return False
-    return user
+# print(get_userr('stella@gmail.com'))
+# #blm bener
+# def authenticate_user(fake_db, username: str, password: str): #Login keknya
+#     user = get_user(fake_db, username)
+#     if not user:
+#         return False
+#     if not verify_password(password, user.hashed_password):
+#         return False
+#     return user
 
 # def auth_user(email: str, password: str):
 #     user = ambilSemua(email)
 #     if not user:
 #         return False
-#     if not verify_password(password, ambilAtribut('hashedPassword',email)):
+#     if not verify_password(password, ambilAtribut('hashed_password',email)):
 #         return False
 #     return user
 
 # print(auth_user('stella@gmail.com','asdfe'))
-# item = cur.execute('SELECT hashedPassword FROM tuteers WHERE "email" = "vin@yahoo.com";')
+# item = cur.execute('SELECT hashed_password FROM tuteers WHERE "email" = "vin@yahoo.com";')
 # print(item.fetchall())
 
 # def aut_user(cur, email:str, password: str):
@@ -197,7 +196,7 @@ async def test():
 
 @app.get('/resetPasswordSQL/', tags=["Manajemen Akun"])
 async def reset_password_sql(input: str):
-    update_formula = 'UPDATE "tuteers" SET "hashedPassword" = %s WHERE "ID_Tuteers" = 1'
+    update_formula = 'UPDATE "tuteers" SET "hashed_password" = %s WHERE "ID_Tuteers" = 1'
     values = (get_password_hash(input))
     item = cur.execute(update_formula, values)
     return ("Query Update Success")
@@ -208,7 +207,7 @@ async def register_sql(name: str, email: str, password: str, reenterpass: str, n
         tanggal =  makeDateFormat(year,month,date)
         genderStr = gender
         passwordhashed = get_password_hash(password)
-        query1 = 'INSERT INTO tuteers ("nama", "email", "noHP", "tanggalLahir", "gender","hashedPassword") VALUES'
+        query1 = 'INSERT INTO tuteers ("nama", "email", "noHP", "tanggalLahir", "gender","hashed_password") VALUES'
         query2 = "(%s,%s,%s,%s,%s,%s);"
         query = query1+query2
         values = (name, email, noHP, tanggal, genderStr, passwordhashed)   
@@ -219,7 +218,7 @@ async def register_sql(name: str, email: str, password: str, reenterpass: str, n
 
 
 # def isSasmePass(a: str):
-#     select_formula = 'SELECT "hashedPassword" FROM tuteers WHERE "ID_Tuteers" = 1;'
+#     select_formula = 'SELECT "hashed_password" FROM tuteers WHERE "ID_Tuteers" = 1;'
 #     item = cur.execute(select_formula)   
 #     result = item.fetchone()
 #     if verify_password(a, result[0]):
