@@ -34,7 +34,7 @@ cur = db.connect()
 # API Endpoints
 
 # Upload, Download Module
-@app.patch('/upload-cv/', tags=['Uploader'])
+@app.put('/upload-cv/', tags=['Uploader'])
 async def upload_cv(booking_id: int, uploaded_file: UploadFile = File(...)):
     file_path = f"./cv_tuteers/{uploaded_file.filename}"
     file_location = uniquify(file_path)
@@ -65,7 +65,7 @@ async def upload_cv(booking_id: int, uploaded_file: UploadFile = File(...)):
 		status_code=404, detail=f'Booking not found!')
     
    
-@app.patch("/upload-review/", tags=['Uploader'])
+@app.put("/upload-review/", tags=['Uploader'])
 async def upload_review(booking_id: int, reviewer_id: int, uploaded_file: UploadFile = File(...)):
     file_path = f"./hasil_review/{uploaded_file.filename}"
     file_location = uniquify(file_path)
@@ -140,7 +140,7 @@ async def download_review_cv(booking_id: int):
         status_code=404, detail=f'CV Review doesnt exists!')
 
 
-@app.patch('/remove-cv-from-booking/', tags=['Delete'])
+@app.put('/remove-cv-from-booking/', tags=['Delete'])
 async def remove_cv_from_booking(booking_id: int):
     item_found = False
     search_formula = 'SELECT * FROM booking WHERE "ID_Booking" = %s'
@@ -166,7 +166,7 @@ async def remove_cv_from_booking(booking_id: int):
 		status_code=404, detail=f'Booking not found!')
 
 
-@app.patch('/delete-review/', tags=['Delete'])
+@app.put('/delete-review/', tags=['Delete'])
 async def remove_cv_from_review(booking_id: int, reviewer_id: int):
     item_found = False
     search_formula = 'SELECT * FROM review WHERE "ID_Booking" = %s and "ID_Reviewer" = %s'
