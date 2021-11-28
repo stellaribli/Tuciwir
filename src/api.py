@@ -306,14 +306,15 @@ async def add_booking(paket_id: int, tuteers_id: int):
 #async def add_booking(paket_id: int, current_user: User = Depends(get_current_active_user)):
 async def add_transaksi(booking_id: int):
     try:
-        item = cur.execute('select "ID_Transaksi" from transaksi order by "ID_Transaksi" DESC LIMIT 1')
+        # item = cur.execute('select "ID_Transaksi" from transaksi order by "ID_Transaksi" DESC LIMIT 1')
+        item = cur.execute('select count(*) from transaksi')
         current_transaksi_id = item.fetchone()[0]
     except:
         raise HTTPException(
 		    status_code=404, detail=f'Query satu gajalan')
     transaksi_id = int(current_transaksi_id)+1
-    add_formula = 'INSERT INTO transaksi ("ID_Transaksi", "ID_Booking", "Metode_Pembayaran", "Bukti_Pembayaran") values (%s, %s, BCA VA, true)'
-    values = (transaksi_id, booking_id)
+    add_formula = 'INSERT INTO transaksi ("ID_Transaksi", "ID_Booking", "Metode_Pembayaran", "Bukti_Pembayaran") values (%s, %s, %s, true)'
+    values = (transaksi_id, booking_id, "BCA VA")
     try:
         item2 = cur.execute(add_formula, values)
     except Exception as E:
