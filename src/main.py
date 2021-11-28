@@ -71,8 +71,6 @@ class Login(QDialog):
     def gotoreset(self):
         widget.setCurrentIndex(2)
         
-    
-
 class CreateAcc(QDialog):
     def __init__(self):
         super(CreateAcc,self).__init__()
@@ -124,8 +122,9 @@ class ResetPassword(QDialog):
         self.simpanbutton.clicked.connect(self.resetpass)
     def resetpass(self):
         if self.passbaru.text()==self.passbaru_2.text():
-            parse = {'email': self.passlama.text(), 'passbaru' : self.passbaru.text()}
-            url = 'http://127.0.0.1:8000/resetPasswordSQL/?' + parse
+            f = {'email': self.passlama.text(), 'passbaru' : self.passbaru.text()}
+            parsed = (urllib.parse.urlencode(f))
+            url = 'http://127.0.0.1:8000/resetPasswordSQL/?' + parsed
             requests.get(url)
             widget.setCurrentIndex(0)
 
