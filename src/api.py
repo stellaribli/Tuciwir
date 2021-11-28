@@ -212,6 +212,12 @@ async def get_all_paket():
     result = item.fetchall()
     return result
 
+@app.get("/transaksi", tags=["Get"])
+async def get_all_transaksi():
+    item = cur.execute('SELECT * FROM transaksi')
+    result = item.fetchall()
+    return result
+
 @app.get("/paket/{paket_id}", tags=["Get"])
 async def get_paket(paket_id: int):
     item_found = False
@@ -229,6 +235,23 @@ async def get_paket(paket_id: int):
     raise HTTPException(
 		status_code=404, detail=f'Paket not found!')
 
+@app.get("/transaksi/{transaksi_id}", tags=["Get"])
+async def get_transaksi(transaksi_id: int):
+    item_found = False
+    search_formula = 'SELECT * FROM transaksi WHERE "ID_Transaksi" = %s'
+    values = (transaksi_id)
+    item = cur.execute(search_formula, values)
+    result = item.fetchone()
+    if result != None:
+        item_found = True
+        if result[0] == transaksi_id:
+            return result
+            
+    if item_found:
+        return {"message": f"Transaksi: {transaksi_id}'"}
+    raise HTTPException(
+		status_code=404, detail=f'Transaksi not found!')
+
 # @app.get("/paket/{paket_id}", tags=["Get"])
 # async def get_paket(paket_id: int):
 #     search_formula = 'SELECT * FROM paket WHERE "ID_Paket" = %s'
@@ -244,7 +267,7 @@ async def get_paket(paket_id: int):
 async def get_booking_by_tuteers_id(tuteers_id: int):
     item_found = False
     booking_id = cur_booking_id
-    search_formula = 'SELECT * FROM booking WHERE "ID_Tuteers" = %s'
+    search_formula = 'SELECT * FROM booking WHERE "ID_Tuteers" = %s ORDER BY "ID_Booking" DESC'
     values = (tuteers_id)
     item = cur.execute(search_formula, values)
     result = item.fetchone()
@@ -252,7 +275,7 @@ async def get_booking_by_tuteers_id(tuteers_id: int):
         item_found = True
         if result[2] == tuteers_id:
             booking_id = result[0]
-            return result
+            return booking_id
 
     if item_found:
         return {"message": f"Booking_id: {booking_id}'"}
@@ -275,6 +298,26 @@ async def add_booking(paket_id: int, tuteers_id: int):
         item2 = cur.execute(add_formula, values)
     except Exception as E:
         print(E)
-        # raise HTTPException(
-		#     status_code=404, detail=f'query 2 gajalan')
+        raise HTTPException(
+		    status_code=404, detail=f'query 2 gajalan')
     return {"message" : "Berhasil menambahkan booking dengan id booking" +str(booking_id)}
+
+@app.post("/create-transaksi", tags=["Add"])
+#async def add_booking(paket_id: int, current_user: User = Depends(get_current_active_user)):
+async def add_transaksi(booking_id: int):
+    try:
+        item = cur.execute('select "ID_Transaksi" from transaksi order by "ID_Transaksi" DESC LIMIT 1')
+        current_transaksi_id = item.fetchone()[0]
+    except:
+        raise HTTPException(
+		    status_code=404, detail=f'Query satu gajalan')
+    transaksi_id = int(current_transaksi_id)+1
+    add_formula = 'INSERT INTO transaksi ("ID_Transaksi", "ID_Booking", "Metode_Pembayaran", "Bukti_Pembayaran") values (%s, %s, BCA VA, true)'
+    values = (transaksi_id, booking_id)
+    try:
+        item2 = cur.execute(add_formula, values)
+    except Exception as E:
+        print(E)
+        raise HTTPException(
+	        status_code=404, detail=f'query 2 gajalan')
+    return {"message" : "Berhasil melakukan pembayaran untuk id booking " +str(booking_id)}
