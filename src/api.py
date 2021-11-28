@@ -4,6 +4,8 @@ from fastapi import Depends, FastAPI, HTTPException, UploadFile, File
 from sqlalchemy.orm import Session
 import psycopg2
 import sys
+
+from starlette.responses import Response
 sys.path.insert(0, './src')
 import models
 import schemas
@@ -31,6 +33,7 @@ def uniquify(path):
 
 cur = db.connect()
 
+cur_booking_id = 0
 # API Endpoints
 
 # Upload, Download Module
@@ -165,7 +168,6 @@ async def remove_cv_from_booking(booking_id: int):
     raise HTTPException(
 		status_code=404, detail=f'Booking not found!')
 
-
 @app.patch('/delete-review/', tags=['Delete'])
 async def remove_cv_from_review(booking_id: int, reviewer_id: int):
     item_found = False
@@ -204,4 +206,75 @@ async def get_all_review():
     result = item.fetchall()
     return result
 
+@app.get("/paket", tags=["Get"])
+async def get_all_paket():
+    item = cur.execute('SELECT * FROM paket')
+    result = item.fetchall()
+    return result
 
+@app.get("/paket/{paket_id}", tags=["Get"])
+async def get_paket(paket_id: int):
+    item_found = False
+    search_formula = 'SELECT * FROM paket WHERE "ID_Paket" = %s'
+    values = (paket_id)
+    item = cur.execute(search_formula, values)
+    result = item.fetchone()
+    if result != None:
+        item_found = True
+        if result[0] == paket_id:
+            return result
+            
+    if item_found:
+        return {"message": f"Paket: {paket_id}'"}
+    raise HTTPException(
+		status_code=404, detail=f'Paket not found!')
+
+# @app.get("/paket/{paket_id}", tags=["Get"])
+# async def get_paket(paket_id: int):
+#     search_formula = 'SELECT * FROM paket WHERE "ID_Paket" = %s'
+#     values = (paket_id)
+#     item = cur.execute(search_formula, values)
+#     result = item.fetchone()
+#     if result[0] != paket_id:
+#         return{"message" : "Package not available"}
+#     else:
+#         return result
+            
+@app.get("/Booking/{tuteers_id}", tags=["Get"])
+async def get_booking_by_tuteers_id(tuteers_id: int):
+    item_found = False
+    booking_id = cur_booking_id
+    search_formula = 'SELECT * FROM booking WHERE "ID_Tuteers" = %s'
+    values = (tuteers_id)
+    item = cur.execute(search_formula, values)
+    result = item.fetchone()
+    if result != None:
+        item_found = True
+        if result[2] == tuteers_id:
+            booking_id = result[0]
+            return result
+
+    if item_found:
+        return {"message": f"Booking_id: {booking_id}'"}
+    raise HTTPException(
+		status_code=404, detail=f'Tuteers Booking not found!')
+    
+@app.post("/create-booking", tags=["Add"])
+#async def add_booking(paket_id: int, current_user: User = Depends(get_current_active_user)):
+async def add_booking(paket_id: int, tuteers_id: int):
+    try:
+        item = cur.execute('select "ID_Booking" from booking order by "ID_Booking" DESC LIMIT 1')
+        current_booking_id = item.fetchone()[0]
+    except:
+        raise HTTPException(
+		    status_code=404, detail=f'wuery satu gajalan')
+    booking_id = int(current_booking_id)+1
+    add_formula = 'INSERT INTO booking ("ID_Booking", "ID_Paket", "ID_Tuteers", "tgl_pesan") values (%s, %s, %s, current_timestamp)'
+    values = (booking_id, paket_id, tuteers_id)
+    try:
+        item2 = cur.execute(add_formula, values)
+    except Exception as E:
+        print(E)
+        # raise HTTPException(
+		#     status_code=404, detail=f'query 2 gajalan')
+    return {"message" : "Berhasil menambahkan booking dengan id booking" +str(booking_id)}
