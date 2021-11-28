@@ -37,7 +37,6 @@ class Login(QDialog):
             url = 'http://127.0.0.1:8000/ambilDataTuteers?' + parsed
             hasil =  requests.get(url)
             currentUser = hasil.json()
-            print(currentUser['nama'])
             widget.setCurrentIndex(3) #Nanti diganti jadi ke tuteers
         else:
             url = 'http://127.0.0.1:8000/loginadmin?' + parsed
