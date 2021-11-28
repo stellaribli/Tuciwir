@@ -130,16 +130,20 @@ class AboutUs(QDialog):
         loadUi('aboutme.ui',self) 
         self.logoutbutton.clicked.connect(self.gotologin)     
         self.aboutmebutton.clicked.connect(self.gotoaboutus) 
-        # a = str(currentUser['nama'])
-        # a = a[0:]
-        self.logoutbutton.setText('kogabisasianjg')
+        # self.logoutbutton.connect(self.usr)
         # self.layananbutton.clicked.connect(self.gotolayanan) 
+    
     # def usr(self):
     #     # a = (currentUser['nama'])
     #     a=""
-    #     self.logoutbutton.setText(a)
+    #     a = 'sstela'
+    #     print(currentUser)
+    #     if (currentUser!=''):
+    #         a = currentUser['nama']
+    #         a = a[0:]
+    #     self.logoutbutton.setText(a)    
+
     def gotologin(self):
-        print(currentUser)
         widget.setCurrentIndex(0)
     # def gotolayanan(self):
     #     widget.setCurrentIndex(#lalaalala)
