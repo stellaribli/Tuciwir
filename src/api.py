@@ -1,21 +1,9 @@
-from datetime import date, datetime, timedelta
-import json
-from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
-from typing import Optional
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from sqlalchemy.sql.sqltypes import Date
-from jose import JWTError, jwt
+from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
-from pydantic import BaseModel
-from re import search
 from fastapi import Depends, FastAPI, HTTPException
 import sys
 sys.path.insert(0, './src')
-from schemas import UserInDB, User, TokenData, Token
 from database import db
-import os.path
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"

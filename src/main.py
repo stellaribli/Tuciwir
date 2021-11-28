@@ -2,12 +2,9 @@ import sys
 # import design
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication, QWidget, QLabel, QMainWindow, QMessageBox, QCheckBox
-from PyQt5 import QtGui, QtCore
 from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from re import search
 from typing import List
 import requests
 import urllib
