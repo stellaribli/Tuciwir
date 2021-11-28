@@ -124,7 +124,7 @@ async def register_sql(name: str, email: str, password: str, reenterpass: str, n
         query2 = "(%s,%s,%s,%s,%s,%s);"
         query = query1+query2
         values = (name, email, noHP, tanggal, genderStr, passwordhashed)   
-        item = cur.execute(query, values)
+        cur.execute(query, values)
         return('Success')
     else:
         return('Password Tidak Sama!')

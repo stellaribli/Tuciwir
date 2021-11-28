@@ -41,7 +41,7 @@ class Login(QDialog):
             url = 'http://127.0.0.1:8000/ambilDataTuteers?' + parsed
             hasil =  requests.get(url)
             print(hasil.json())
-            print("Successfully logged in with email: ", email)
+            # print("Successfully logged in with email: ", email)
             widget.setCurrentIndex(2) #Nanti diganti jadi ke tuteers
         else:
             url = 'http://127.0.0.1:8000/loginadmin?' + parsed
@@ -121,14 +121,14 @@ class ResetPassword(QDialog):
         super(ResetPassword,self).__init__()
         loadUi('resetpass.ui',self)  
         self.kembali.clicked.connect(self.back)
-
+        self.simpanbutton.clicked.connect(self.resetpass)
     def resetpass(self):
         if self.passbaru.text()==self.passbaru_2.text():
             parse = {'email': self.passlama.text(), 'passbaru' : self.passbaru.text()}
             url = 'http://127.0.0.1:8000/resetPasswordSQL/?' + parse
             requests.get(url)
             widget.setCurrentIndex(0)
-            
+
     def back(self):
         prevIndex = 0
         widget.setCurrentIndex(0) 
