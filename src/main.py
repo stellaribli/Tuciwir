@@ -32,17 +32,31 @@ class Login(QDialog):
         url = 'http://127.0.0.1:8000/login?' + parsed
         hasil =  requests.get(url)
         x = str(hasil.text)
-        print (x)
+        global loggedin
+        global currentUser 
         if hasil.text == "true":
-            global loggedin 
             loggedin = True
+            url = 'http://127.0.0.1:8000/ambilDataTuteers?' + parsed
+            hasil =  requests.get(url)
+            # currentUser = hasil.text
+            print(hasil)
             print("Successfully logged in with email: ", email)
-            widget.setCurrentIndex(2) 
-            widget.show()
-            return True
+            widget.setCurrentIndex(2) #Nanti diganti jadi ke tuteers
         else:
-            print("Password Salah")
-            return False
+            url = 'http://127.0.0.1:8000/loginadmin?' + parsed
+            hasil =  requests.get(url)
+            if hasil.text == "true":
+                loggedin = True
+                url = 'http://127.0.0.1:8000/ambilDataReviewer?' + parsed
+                hasil =  requests.get(url)
+                # currentUser = hasil.text
+                print(hasil.json())
+                print("Suc")
+                widget.setCurrentIndex(2)
+            else:
+                print("Password Salah")
+                loggedin = False
+        return loggedin
 
     def gotocreate(self):
         widget.setCurrentIndex(1)
@@ -86,13 +100,10 @@ class CreateAcc(QDialog):
             f = {'name': namalengkap, 'email' : email, 'password' : password, 'reenterpass' : confirmpass, 'noHP':nomorhp, 'year':year, 'month':month, 'date' : date,'gender': jen}
             parsed = (urllib.parse.urlencode(f))
             url = 'http://127.0.0.1:8000/registerSQL?' + parsed
-            print(url)
             # url = 'http://127.0.0.1:8000/registerSQL?name=' + namalengkap + '&email=' + email + '&password=' + password + '&reenterpass=' + confirmpass + '&noHP=' + nomorhp + '&year=' + year + '&month=' + month + '&date=' + date + '&gender=' + jeniskelamin
             requests.post(url)
             print("Successfully created acc with email: ", email)
-            login=Login()
-            widget.addWidget(login)
-            widget.setCurrentIndex(widget.currentIndex()+1)
+            widget.setCurrentIndex(0)
         else:
             print("Password Berbeda!")
             msg = QMessageBox()

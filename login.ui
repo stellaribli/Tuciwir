@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1602</width>
-    <height>901</height>
+    <width>1440</width>
+    <height>804</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -158,7 +158,7 @@ Border: 0px;</string>
     <rect>
      <x>610</x>
      <y>400</y>
-     <width>101</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -168,7 +168,7 @@ font: 12pt &quot;Mulish&quot;;
 </string>
    </property>
    <property name="text">
-    <string>Lupa Password?</string>
+    <string>Ingin ganti password?</string>
    </property>
   </widget>
   <widget class="QPushButton" name="loginaccbutton_3">
