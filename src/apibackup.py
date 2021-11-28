@@ -11,14 +11,10 @@ from passlib.context import CryptContext
 from pydantic import BaseModel
 from re import search
 from fastapi import Depends, FastAPI, HTTPException
-# import psycopg2
 import sys
 sys.path.insert(0, './src')
-# import models
 from schemas import UserInDB, User, TokenData, Token
 from database import db
-# import shutil
-# import os
 import os.path
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
@@ -26,9 +22,6 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 cur = db.connect()
-
-ax = cur.execute('SELECT * FROM reviewer;')
-print(ax.fetchall())
  
 app = FastAPI(description ="Login Account Tuteers")
 
@@ -43,24 +36,18 @@ def get_password_hash(password):
 
 def makeDateFormat(year: int, month: int, date: int):
     return(str(year)+'-'+str(month)+'-'+str(date))
-    
 
 @app.get('/ambilDataTuteers')
-def ambilSemua(em: str):
+async def ambilSemua(em: str):
     query = "SELECT * FROM tuteers WHERE email = '" + em + "';"
     current_user_query = cur.execute(query)
     return(current_user_query.fetchone())
 
 @app.get('/ambilDataReviewer')
-def ambilSemuaAdmin(em: str):
+async def ambilSemuaAdmin(em: str):
     query = "SELECT * FROM reviewer WHERE email = '" + em + "';"
     current_user_query = cur.execute(query)
     return(current_user_query.fetchone())
-
-@app.get('/ambilpass')
-async def ammbilpass(password: str):
-    print(verify_password(password, get_password_hash(password)))
-    return get_password_hash(password)
 
 def apakahEmailExistTuteers(email:str):
     query = "SELECT EXISTS(SELECT * from tuteers WHERE email = %s);"
@@ -73,7 +60,6 @@ def apakahEmailExistReviewer(email:str):
     values = email
     Execute=cur.execute(query,values).fetchone()
     return(Execute[0])
-
 
 def ambilPassinDB(em:str):
     query = 'SELECT "hashedPassword" FROM tuteers WHERE email = %s;'
@@ -115,7 +101,6 @@ async def loginadm (email: str, password: str):
     else:
         return False
 
-
 @app.get("/tuteers")
 async def gettuteers():
     item = cur.execute('SELECT * FROM tuteers')
@@ -123,9 +108,9 @@ async def gettuteers():
     return result
 
 @app.get('/resetPasswordSQL/', tags=["Manajemen Akun"])
-async def reset_password_sql(input: str):
-    update_formula = 'UPDATE "tuteers" SET "hashedPassword" = %s WHERE "ID_Tuteers" = 1'
-    values = (get_password_hash(input))
+async def reset_password_sql(passbaru: str, email: str):
+    update_formula = 'UPDATE "tuteers" SET "hashedPassword" = %s WHERE "email" = %s'
+    values = (get_password_hash(passbaru),email)
     item = cur.execute(update_formula, values)
     return ("Query Update Success")
 

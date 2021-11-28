@@ -14,7 +14,7 @@ import urllib
 
 
 loggedin = False
-
+currentUser = ''
 class Login(QDialog):
     def __init__(self):
         super(Login,self).__init__()
@@ -36,10 +36,11 @@ class Login(QDialog):
         global currentUser 
         if hasil.text == "true":
             loggedin = True
+            f = {'em' : email}
+            parsed = (urllib.parse.urlencode(f))
             url = 'http://127.0.0.1:8000/ambilDataTuteers?' + parsed
             hasil =  requests.get(url)
-            # currentUser = hasil.text
-            print(hasil)
+            print(hasil.json())
             print("Successfully logged in with email: ", email)
             widget.setCurrentIndex(2) #Nanti diganti jadi ke tuteers
         else:
@@ -47,22 +48,29 @@ class Login(QDialog):
             hasil =  requests.get(url)
             if hasil.text == "true":
                 loggedin = True
+                f = {'em' : email}
+                parsed = (urllib.parse.urlencode(f))
                 url = 'http://127.0.0.1:8000/ambilDataReviewer?' + parsed
                 hasil =  requests.get(url)
-                # currentUser = hasil.text
                 print(hasil.json())
-                print("Suc")
-                widget.setCurrentIndex(2)
+                print("Berhasil Login Sebagai Admin!")
+                widget.setCurrentIndex(2) #nanti diganti ke admin
             else:
                 print("Password Salah")
                 loggedin = False
-        return loggedin
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText("Error")
+                msg.setInformativeText('Login Tidak Berhasil!')
+                msg.exec_()
+        return
 
     def gotocreate(self):
         widget.setCurrentIndex(1)
 
     def gotoreset(self):
-        widget.setCurrentIndex(2)    
+        widget.setCurrentIndex(2)
+        
     
 
 class CreateAcc(QDialog):
@@ -73,13 +81,7 @@ class CreateAcc(QDialog):
         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.confirmpass.setEchoMode(QtWidgets.QLineEdit.Password)
         self.loginaccbutton.clicked.connect(self.gotologin)
-        # self.kembali.clicked.connect(self.back)
-
-    # def back(self):
-    #     a = prevIndex
-    #     prevIndex = 1
-    #     widget.setCurrentIndex(a)            
-
+    
     def createaccfunction(self):
         jeniskelamin = ""
         if self.Female.isChecked():
@@ -100,7 +102,6 @@ class CreateAcc(QDialog):
             f = {'name': namalengkap, 'email' : email, 'password' : password, 'reenterpass' : confirmpass, 'noHP':nomorhp, 'year':year, 'month':month, 'date' : date,'gender': jen}
             parsed = (urllib.parse.urlencode(f))
             url = 'http://127.0.0.1:8000/registerSQL?' + parsed
-            # url = 'http://127.0.0.1:8000/registerSQL?name=' + namalengkap + '&email=' + email + '&password=' + password + '&reenterpass=' + confirmpass + '&noHP=' + nomorhp + '&year=' + year + '&month=' + month + '&date=' + date + '&gender=' + jeniskelamin
             requests.post(url)
             print("Successfully created acc with email: ", email)
             widget.setCurrentIndex(0)
@@ -121,6 +122,13 @@ class ResetPassword(QDialog):
         loadUi('resetpass.ui',self)  
         self.kembali.clicked.connect(self.back)
 
+    def resetpass(self):
+        if self.passbaru.text()==self.passbaru_2.text():
+            parse = {'email': self.passlama.text(), 'passbaru' : self.passbaru.text()}
+            url = 'http://127.0.0.1:8000/resetPasswordSQL/?' + parse
+            requests.get(url)
+            widget.setCurrentIndex(0)
+            
     def back(self):
         prevIndex = 0
         widget.setCurrentIndex(0) 

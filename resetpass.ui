@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1606</width>
-    <height>901</height>
+    <width>1440</width>
+    <height>804</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,7 +59,7 @@ padding-left:15px;</string>
     <string/>
    </property>
    <property name="placeholderText">
-    <string>Kata Sandi Lama</string>
+    <string>Email</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="passbaru">
