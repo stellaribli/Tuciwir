@@ -193,13 +193,7 @@ async def remove_cv_from_review(booking_id: int, reviewer_id: int):
     raise HTTPException(
 		status_code=404, detail=f'Review not found!')
 
-@app.get("/booking", tags=["Get"])
-async def get_all_booking():
-    item = cur.execute('SELECT * FROM booking')
-    result = item.fetchall()
-    return result
-
-
+#GET
 @app.get("/review", tags=["Get"])
 async def get_all_review():
     item = cur.execute('SELECT * FROM review')
@@ -209,12 +203,6 @@ async def get_all_review():
 @app.get("/paket", tags=["Get"])
 async def get_all_paket():
     item = cur.execute('SELECT * FROM paket')
-    result = item.fetchall()
-    return result
-
-@app.get("/transaksi", tags=["Get"])
-async def get_all_transaksi():
-    item = cur.execute('SELECT * FROM transaksi')
     result = item.fetchall()
     return result
 
@@ -235,6 +223,54 @@ async def get_paket(paket_id: int):
     raise HTTPException(
 		status_code=404, detail=f'Paket not found!')
 
+@app.get("/booking", tags=["Get"])
+async def get_all_booking():
+    item = cur.execute('SELECT * FROM booking')
+    result = item.fetchall()
+    return result
+
+@app.get("/booking/{booking_id}", tags=["Get"])
+async def get_booking(booking_id: int):
+    item_found = False
+    search_formula = 'SELECT * FROM booking WHERE "ID_Booking" = %s'
+    values = (booking_id)
+    item = cur.execute(search_formula, values)
+    result = item.fetchone()
+    if result != None:
+        item_found = True
+        if result[0] == booking_id:
+            return result
+            
+    if item_found:
+        return {"message": f"Booking: {booking_id}'"}
+    raise HTTPException(
+		status_code=404, detail=f'Booking not found!')
+    
+@app.get("/booking/{tuteers_id}", tags=["Get"])
+async def get_booking_by_tuteers_id(tuteers_id: int):
+    item_found = False
+    booking_id = cur_booking_id
+    search_formula = 'SELECT * FROM booking WHERE "ID_Tuteers" = %s ORDER BY "ID_Booking" DESC limit 1'
+    values = (tuteers_id)
+    item = cur.execute(search_formula, values)
+    result = item.fetchone()
+    if result != None:
+        item_found = True
+        if result[2] == tuteers_id:
+            booking_id = result[0]
+            return booking_id
+
+    if item_found:
+        return {"message": f"Booking_id: {booking_id}'"}
+    raise HTTPException(
+		status_code=404, detail=f'Tuteers Booking not found!')
+
+@app.get("/transaksi", tags=["Get"])
+async def get_all_transaksi():
+    item = cur.execute('SELECT * FROM transaksi')
+    result = item.fetchall()
+    return result
+
 @app.get("/transaksi/{transaksi_id}", tags=["Get"])
 async def get_transaksi(transaksi_id: int):
     item_found = False
@@ -251,40 +287,23 @@ async def get_transaksi(transaksi_id: int):
         return {"message": f"Transaksi: {transaksi_id}'"}
     raise HTTPException(
 		status_code=404, detail=f'Transaksi not found!')
-            
-@app.get("/Booking/{tuteers_id}", tags=["Get"])
-async def get_booking_by_tuteers_id(tuteers_id: int):
-    item_found = False
-    booking_id = cur_booking_id
-    search_formula = 'SELECT * FROM booking WHERE "ID_Tuteers" = %s ORDER BY "ID_Booking" DESC'
-    values = (tuteers_id)
-    item = cur.execute(search_formula, values)
-    result = item.fetchone()
-    if result != None:
-        item_found = True
-        if result[2] == tuteers_id:
-            booking_id = result[0]
-            return booking_id
 
-    if item_found:
-        return {"message": f"Booking_id: {booking_id}'"}
-    raise HTTPException(
-		status_code=404, detail=f'Tuteers Booking not found!')
-
-@app.delete("/Booking/{booking_id}", tags=["Delete"])
+#DELETE
+@app.delete("/delete-booking/{booking_id}", tags=["Delete"])
 async def delete_booking(booking_id : int):
     delete_formula = 'DELETE FROM booking where "ID_Booking" = %s'
     values = (booking_id)
     item = cur.execute(delete_formula, values)
     return {"message" : "Booking dengan id " +str(booking_id)+ " berhasil dihapus"}
 
-@app.delete("/Transaksi/{transaksi_id}", tags=["Delete"])
+@app.delete("/delete-transaksi/{transaksi_id}", tags=["Delete"])
 async def delete_transaksi(transaksi_id : int):
     delete_formula = 'DELETE FROM transaksi where "ID_Transaksi" = %s'
     values = (transaksi_id)
     item = cur.execute(delete_formula, values)
     return {"message" : "Transaksi dengan id " +str(transaksi_id)+ " berhasil dihapus"}
 
+#ADD
 @app.post("/create-booking", tags=["Add"])
 #async def add_booking(paket_id: int, current_user: User = Depends(get_current_active_user)):
 async def add_booking(paket_id: int, tuteers_id: int):
@@ -303,7 +322,7 @@ async def add_booking(paket_id: int, tuteers_id: int):
     except Exception as E:
         raise HTTPException(
 		    status_code=404, detail=f'Gagal membuat booking')
-    return {"message" : "Berhasil menambahkan booking dengan id booking" +str(booking_id)}
+    return {"message" : "Berhasil menambahkan booking dengan id booking " +str(booking_id)}
 
 @app.post("/create-transaksi", tags=["Add"])
 #async def add_booking(paket_id: int, current_user: User = Depends(get_current_active_user)):
