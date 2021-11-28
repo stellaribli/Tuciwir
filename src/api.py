@@ -34,7 +34,7 @@ cur = db.connect()
 # API Endpoints
 
 # Upload, Download Module
-@app.put('/upload-cv/', tags=['Uploader'])
+@app.put('/upload-cv', tags=['Uploader'])
 async def upload_cv(booking_id: int, uploaded_file: UploadFile = File(...)):
     file_path = f"./cv_tuteers/{uploaded_file.filename}"
     file_location = uniquify(file_path)
@@ -65,7 +65,7 @@ async def upload_cv(booking_id: int, uploaded_file: UploadFile = File(...)):
 		status_code=404, detail=f'Booking not found!')
     
    
-@app.put("/upload-review/", tags=['Uploader'])
+@app.put("/upload-review", tags=['Uploader'])
 async def upload_review(booking_id: int, reviewer_id: int, uploaded_file: UploadFile = File(...)):
     file_path = f"./hasil_review/{uploaded_file.filename}"
     file_location = uniquify(file_path)
@@ -97,7 +97,7 @@ async def upload_review(booking_id: int, reviewer_id: int, uploaded_file: Upload
     raise HTTPException(
 		status_code=404, detail=f'Review not found!')
 
-@app.get("/download-cv/", tags=['Downloader'])
+@app.get("/download-cv", tags=['Downloader'])
 async def download_tuteers_cv(booking_id: int):
     item_found = False
     search_formula = 'SELECT * FROM booking WHERE "ID_Booking" = %s'
@@ -118,7 +118,7 @@ async def download_tuteers_cv(booking_id: int):
         status_code=404, detail=f'Booking did not exist!')
 
 
-@app.get("/download-cv-review/", tags=['Downloader'])
+@app.get("/download-cv-review", tags=['Downloader'])
 async def download_review_cv(booking_id: int):
     item_found = False
     search_formula = 'SELECT * FROM review WHERE "ID_Booking" = %s'
@@ -140,7 +140,7 @@ async def download_review_cv(booking_id: int):
         status_code=404, detail=f'CV Review doesnt exists!')
 
 
-@app.put('/remove-cv-from-booking/', tags=['Delete'])
+@app.put('/remove-cv-from-booking', tags=['Delete'])
 async def remove_cv_from_booking(booking_id: int):
     item_found = False
     search_formula = 'SELECT * FROM booking WHERE "ID_Booking" = %s'
@@ -166,7 +166,7 @@ async def remove_cv_from_booking(booking_id: int):
 		status_code=404, detail=f'Booking not found!')
 
 
-@app.put('/delete-review/', tags=['Delete'])
+@app.put('/delete-review', tags=['Delete'])
 async def remove_cv_from_review(booking_id: int, reviewer_id: int):
     item_found = False
     search_formula = 'SELECT * FROM review WHERE "ID_Booking" = %s and "ID_Reviewer" = %s'
@@ -205,15 +205,16 @@ async def get_all_review():
     return result
 
 
-@app.get("/paket-of-booking/")
+@app.get("/paket-of-booking")
 async def get_paket_of_booking(booking_id: int):
-    formula = 'select p."ID_Paket", p.jumlah_cv, p.harga, p.durasi from booking b, paket p where b."ID_Paket" = p."ID_Paket" and b."ID_Booking" = %s'
+    formula = 'select b."ID_Booking", p."ID_Paket", p.jumlah_cv, p.harga, p.durasi from booking b, paket p where b."ID_Paket" = p."ID_Paket" and b."ID_Booking" = %s'
     try:
-        cur.execute(formula, booking_id)
-        result = cur.fetch
+        item = cur.execute(formula, booking_id)
+        result = item.fetchone()
     except Exception as e:
         print(e)
         raise HTTPException(
 		    status_code=404, detail=f'Query Error!')
+    return result
     
 
