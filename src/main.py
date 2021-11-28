@@ -1,14 +1,13 @@
 import sys
-# import design
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication, QWidget, QLabel, QMainWindow, QMessageBox, QCheckBox
+from PyQt5.QtWidgets import QDialog, QApplication, QWidget, QLabel, QMainWindow, QMessageBox, QCheckBox, QLineEdit
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from typing import List
 import requests
 import urllib
-
+import json
 
 loggedin = False
 currentUser = ''
@@ -37,9 +36,9 @@ class Login(QDialog):
             parsed = (urllib.parse.urlencode(f))
             url = 'http://127.0.0.1:8000/ambilDataTuteers?' + parsed
             hasil =  requests.get(url)
-            print(hasil.json())
-            # print("Successfully logged in with email: ", email)
-            widget.setCurrentIndex(2) #Nanti diganti jadi ke tuteers
+            currentUser = hasil.json()
+            print(currentUser['nama'])
+            widget.setCurrentIndex(3) #Nanti diganti jadi ke tuteers
         else:
             url = 'http://127.0.0.1:8000/loginadmin?' + parsed
             hasil =  requests.get(url)
@@ -49,11 +48,10 @@ class Login(QDialog):
                 parsed = (urllib.parse.urlencode(f))
                 url = 'http://127.0.0.1:8000/ambilDataReviewer?' + parsed
                 hasil =  requests.get(url)
-                print(hasil.json())
-                print("Berhasil Login Sebagai Admin!")
-                widget.setCurrentIndex(2) #nanti diganti ke admin
+                currentUser = hasil.json()
+                print(currentUser)
+                widget.setCurrentIndex(3) #nanti diganti ke admin
             else:
-                print("Password Salah")
                 loggedin = False
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Critical)
@@ -67,7 +65,7 @@ class Login(QDialog):
 
     def gotoreset(self):
         widget.setCurrentIndex(2)
-        
+    
 class CreateAcc(QDialog):
     def __init__(self):
         super(CreateAcc,self).__init__()
@@ -98,17 +96,17 @@ class CreateAcc(QDialog):
             parsed = (urllib.parse.urlencode(f))
             url = 'http://127.0.0.1:8000/registerSQL?' + parsed
             requests.post(url)
-            print("Successfully created acc with email: ", email)
+            QLineEdit.clear(self)
             widget.setCurrentIndex(0)
+            
         else:
-            print("Password Berbeda!")
             msg = QMessageBox()
-            msg.setWindowTitle("Tutorial on PyQt5")
-            msg.setText("This is the main text!")    
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Error")
+            msg.setInformativeText('Input Password Salah!')
             msg.exec_()
 
     def gotologin(self):
-        # prevIndex = 1
         widget.setCurrentIndex(0)
 
 class ResetPassword(QDialog):
@@ -124,18 +122,37 @@ class ResetPassword(QDialog):
             url = 'http://127.0.0.1:8000/resetPasswordSQL/?' + parsed
             requests.get(url)
             widget.setCurrentIndex(0)
-
     def back(self):
-        prevIndex = 0
         widget.setCurrentIndex(0) 
 
+class AboutUs(QDialog):
+    def __init__(self):
+        super(AboutUs,self).__init__()
+        loadUi('aboutme.ui',self) 
+        self.logoutbutton.clicked.connect(self.gotologin)     
+        self.aboutmebutton.clicked.connect(self.gotoaboutus) 
+        # a = str(currentUser['nama'])
+        # a = a[0:]
+        self.logoutbutton.setText('kogabisasianjg')
+        # self.layananbutton.clicked.connect(self.gotolayanan) 
+    # def usr(self):
+    #     # a = (currentUser['nama'])
+    #     a=""
+    #     self.logoutbutton.setText(a)
+    def gotologin(self):
+        print(currentUser)
+        widget.setCurrentIndex(0)
+    # def gotolayanan(self):
+    #     widget.setCurrentIndex(#lalaalala)
+    def gotoaboutus(self):
+        widget.setCurrentIndex(3)    
 app=QApplication(sys.argv)
-mainwindow=CreateAcc()
 widget=QtWidgets.QStackedWidget()
 
 widget.addWidget(Login()) #Index jadi 0
-widget.addWidget(CreateAcc())  #Index jadi 1
-widget.addWidget(ResetPassword())  #Index jadi 2
+widget.addWidget(CreateAcc()) 
+widget.addWidget(ResetPassword())
+widget.addWidget(AboutUs())  
 widget.setFixedWidth(1600)
 widget.setFixedHeight(900)
 widget.show()
