@@ -10,8 +10,11 @@ from PyQt5.QtGui import *
 from re import search
 from typing import List
 import requests
+import urllib
 
-# prevIndex = 0
+
+loggedin = False
+
 class Login(QDialog):
     def __init__(self):
         super(Login,self).__init__()
@@ -24,15 +27,27 @@ class Login(QDialog):
     def loginfunction(self):
         email=self.email.text()
         password=self.password.text()
-        print("Successfully logged in with email: ", email, "and password:", password)
-        return
+        f = {'email' : email, 'password' : password}
+        parsed = (urllib.parse.urlencode(f))
+        url = 'http://127.0.0.1:8000/login?' + parsed
+        hasil =  requests.get(url)
+        x = str(hasil.text)
+        print (x)
+        if hasil.text == "true":
+            global loggedin 
+            loggedin = True
+            print("Successfully logged in with email: ", email)
+            widget.setCurrentIndex(2) 
+            widget.show()
+            return True
+        else:
+            print("Password Salah")
+            return False
 
     def gotocreate(self):
-        prevIndex = 0
         widget.setCurrentIndex(1)
 
     def gotoreset(self):
-        prevIndex = 0
         widget.setCurrentIndex(2)    
     
 
@@ -59,7 +74,7 @@ class CreateAcc(QDialog):
             jeniskelamin = "Male"
 
         if self.password.text()==self.confirmpass.text():
-            print(jeniskelamin)
+            jen = jeniskelamin
             namalengkap = self.namalengkap.text()
             email = self.email.text()
             year = self.year.text()
@@ -68,10 +83,12 @@ class CreateAcc(QDialog):
             nomorhp = self.nomorhp.text()
             password=self.password.text()
             confirmpass = self.confirmpass.text()
-            # print(isChecked(self.Female))
-            # fem = self.Female.toggled.connect(lambda:self.btnstate(self.Female))
+            f = {'name': namalengkap, 'email' : email, 'password' : password, 'reenterpass' : confirmpass, 'noHP':nomorhp, 'year':year, 'month':month, 'date' : date,'gender': jen}
+            parsed = (urllib.parse.urlencode(f))
+            url = 'http://127.0.0.1:8000/registerSQL?' + parsed
+            print(url)
             # url = 'http://127.0.0.1:8000/registerSQL?name=' + namalengkap + '&email=' + email + '&password=' + password + '&reenterpass=' + confirmpass + '&noHP=' + nomorhp + '&year=' + year + '&month=' + month + '&date=' + date + '&gender=' + jeniskelamin
-            # requests.post(url)
+            requests.post(url)
             print("Successfully created acc with email: ", email)
             login=Login()
             widget.addWidget(login)
@@ -81,10 +98,9 @@ class CreateAcc(QDialog):
             msg = QMessageBox()
             msg.setWindowTitle("Tutorial on PyQt5")
             msg.setText("This is the main text!")    
-            x = msg.exec_()
+            msg.exec_()
 
     def gotologin(self):
-        loginacc=Login()
         # prevIndex = 1
         widget.setCurrentIndex(0)
 
@@ -105,7 +121,6 @@ widget=QtWidgets.QStackedWidget()
 widget.addWidget(Login()) #Index jadi 0
 widget.addWidget(CreateAcc())  #Index jadi 1
 widget.addWidget(ResetPassword())  #Index jadi 2
-
 widget.setFixedWidth(1600)
 widget.setFixedHeight(900)
 widget.show()

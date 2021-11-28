@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1598</width>
-    <height>896</height>
+    <width>1440</width>
+    <height>805</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -363,7 +363,7 @@ padding-right:15px;</string>
   </widget>
   <widget class="QRadioButton" name="Female">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>

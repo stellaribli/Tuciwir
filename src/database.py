@@ -5,7 +5,6 @@ from sqlalchemy.ext.declarative import declarative_base
 # SQLALCHEMY_DATABASE_URL = "postgres://olavibuzyktcds:2e2d9fbe8917a0e81364d393a56ffef96c1a361b937817c1d544d911b26550dc@ec2-3-230-149-158.compute-1.amazonaws.com:5432/dbfkobcp28ff3h"
 SQLALCHEMY_DATABASE_URL = "postgresql://tuciwir@tuciwir-sql:Password123@tuciwir-sql.postgres.database.azure.com:5432/tuciwir"
 
-
 def init_connection_engine():
     db_config = {
         "pool_size": 5,
