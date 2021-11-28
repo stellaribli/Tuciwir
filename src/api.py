@@ -251,17 +251,6 @@ async def get_transaksi(transaksi_id: int):
         return {"message": f"Transaksi: {transaksi_id}'"}
     raise HTTPException(
 		status_code=404, detail=f'Transaksi not found!')
-
-# @app.get("/paket/{paket_id}", tags=["Get"])
-# async def get_paket(paket_id: int):
-#     search_formula = 'SELECT * FROM paket WHERE "ID_Paket" = %s'
-#     values = (paket_id)
-#     item = cur.execute(search_formula, values)
-#     result = item.fetchone()
-#     if result[0] != paket_id:
-#         return{"message" : "Package not available"}
-#     else:
-#         return result
             
 @app.get("/Booking/{tuteers_id}", tags=["Get"])
 async def get_booking_by_tuteers_id(tuteers_id: int):
@@ -281,7 +270,21 @@ async def get_booking_by_tuteers_id(tuteers_id: int):
         return {"message": f"Booking_id: {booking_id}'"}
     raise HTTPException(
 		status_code=404, detail=f'Tuteers Booking not found!')
-    
+
+@app.delete("/Booking/{booking_id}", tags=["Delete"])
+async def delete_booking(booking_id : int):
+    delete_formula = 'DELETE FROM booking where "ID_Booking" = %s'
+    values = (booking_id)
+    item = cur.execute(delete_formula, values)
+    return {"message" : "Booking dengan id " +str(booking_id)+ " berhasil dihapus"}
+
+@app.delete("/Transaksi/{transaksi_id}", tags=["Delete"])
+async def delete_transaksi(transaksi_id : int):
+    delete_formula = 'DELETE FROM transaksi where "ID_Transaksi" = %s'
+    values = (transaksi_id)
+    item = cur.execute(delete_formula, values)
+    return {"message" : "Transaksi dengan id " +str(transaksi_id)+ " berhasil dihapus"}
+
 @app.post("/create-booking", tags=["Add"])
 #async def add_booking(paket_id: int, current_user: User = Depends(get_current_active_user)):
 async def add_booking(paket_id: int, tuteers_id: int):
@@ -290,16 +293,16 @@ async def add_booking(paket_id: int, tuteers_id: int):
         current_booking_id = item.fetchone()[0]
     except:
         raise HTTPException(
-		    status_code=404, detail=f'wuery satu gajalan')
+		    status_code=404, detail=f'Tidak bisa membuat id booking')
+
     booking_id = int(current_booking_id)+1
     add_formula = 'INSERT INTO booking ("ID_Booking", "ID_Paket", "ID_Tuteers", "tgl_pesan") values (%s, %s, %s, current_timestamp)'
     values = (booking_id, paket_id, tuteers_id)
     try:
         item2 = cur.execute(add_formula, values)
     except Exception as E:
-        print(E)
         raise HTTPException(
-		    status_code=404, detail=f'query 2 gajalan')
+		    status_code=404, detail=f'Gagal membuat booking')
     return {"message" : "Berhasil menambahkan booking dengan id booking" +str(booking_id)}
 
 @app.post("/create-transaksi", tags=["Add"])
@@ -311,14 +314,13 @@ async def add_transaksi(booking_id: int):
         current_transaksi_id = item.fetchone()[0]
     except:
         raise HTTPException(
-		    status_code=404, detail=f'Query satu gajalan')
+		    status_code=404, detail=f'Tidak bisa membuat id transaksi')
     transaksi_id = int(current_transaksi_id)+1
     add_formula = 'INSERT INTO transaksi ("ID_Transaksi", "ID_Booking", "Metode_Pembayaran", "Bukti_Pembayaran") values (%s, %s, %s, true)'
     values = (transaksi_id, booking_id, "BCA VA")
     try:
         item2 = cur.execute(add_formula, values)
     except Exception as E:
-        print(E)
         raise HTTPException(
-	        status_code=404, detail=f'query 2 gajalan')
+	        status_code=404, detail=f'Gagal melakukan transaksi')
     return {"message" : "Berhasil melakukan pembayaran untuk id booking " +str(booking_id)}
