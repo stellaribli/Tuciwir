@@ -1,6 +1,5 @@
 import sys
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication, QWidget, QLabel, QMainWindow, QMessageBox, QCheckBox, QLineEdit
+from PyQt5.QtWidgets import QFileDialog, QPushButton, QDialog, QApplication, QWidget, QLabel, QMainWindow, QMessageBox, QCheckBox, QLineEdit
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -8,11 +7,17 @@ from typing import List
 import requests
 import urllib
 import json
+from PyQt5 import QtCore, QtGui, QtWidgets
+sys.path.insert(0, './src')
+import PyPDF2
+import os
 
 loggedin = False
-currentUser = '1'
-currentName = '1'
+currentUser = ''
+currentName = ''
+booking_id = 2
 
+#Stella
 class Login(QDialog):
     def __init__(self):
         super(Login,self).__init__()
@@ -41,7 +46,7 @@ class Login(QDialog):
             hasil =  requests.get(url)
             currentUser = hasil.json()
             currentName = currentUser['nama']
-            widget.setCurrentIndex(3) #Nanti diganti jadi ke tuteers
+            widget.setCurrentIndex(4) #Nanti diganti jadi ke tuteers
             self.email.setText("")
             self.password.setText("")
             print(currentName)
@@ -184,14 +189,110 @@ class AboutUs(QDialog):
 
     def gotoaboutus(self):
         widget.setCurrentIndex(3) 
-           
+
+#Tugus
+class HomeScreen(QMainWindow):
+    def __init__(self):
+        super(HomeScreen, self).__init__()
+        loadUi('homescreen.ui', self)
+        self.setWindowTitle('Home Screen')
+        self.setWindowIcon(QtGui.QIcon('src/frontend/images/logo askel.png'))
+        self.bookingButton.clicked.connect(self.goToBooking)
+        self.statusPesananButton.clicked.connect(self.goToStatus)
+    
+
+    def goToBooking(self):
+        QMessageBox.about(self, "Info", "Go to booking")
+    
+    def goToStatus(self):
+        QMessageBox.about(self, "Info", "Go to status")
+
+class UploadCV(QDialog):
+    def __init__(self):
+        super(UploadCV, self).__init__()
+        loadUi("uploadcv.ui", self)
+        self.setWindowTitle('Upload CV')
+        self.uploadButton.clicked.connect(self.uploadCV)
+        self.uploadedFile = None
+        self.dataPaket = self.getPaketBooking(booking_id)
+        self.submitBookingButton.clicked.connect(lambda: self.submitBooking(booking_id))
+        self.jmlCV.setText(str(self.dataPaket.json()['jumlah_cv']) + "CV")
+        self.jmlHari.setText(str(self.dataPaket.json()['durasi']) + " Hari")
+        self.rincian.setText("Paket " + str(self.dataPaket.json()['jumlah_cv']) + " CV " + str(self.dataPaket.json()['durasi']) + " Hari")
+        self.harga.setText("Rp" + str(self.dataPaket.json()['harga']))
+        self.bookingNumber.setText("#" + str(self.dataPaket.json()['ID_Booking']))
+        self.delete_button.hide()
+        self.homescreen.hide()
+        self.prosesReview.hide()
+        self.delete_button.clicked.connect(self.deleteCV)
+        self.homescreen.clicked.connect(self.goToHomeScreen)
+        self.gambar.setPixmap(QtGui.QPixmap("src/frontend/images/cv.png"))
+        self.gambar.show()
+
+    def uploadCV(self):
+        fileName, _ = QFileDialog.getOpenFileName(self, "Upload CV File", "", "PDF Files (*.pdf)")
+        if fileName:
+            self.uploadedFile = fileName
+            print(self.uploadedFile)
+            self.fileName.setText(os.path.basename(fileName))
+            self.delete_button.show()
+
+        else:
+            print("No file selected")
+        
+    def submitBooking(self, booking_id):
+        if self.uploadedFile:
+            with open(self.uploadedFile, 'rb') as f:
+                files = {'uploaded_file': f}
+                headers = {'Accept': 'application/json'}
+                request = requests.put(f'http://127.0.0.1:8000/upload-cv?booking_id={booking_id}', files=files, headers=headers)
+                print(request.status_code)
+                print(request.text)
+                if (request.text[0] == "CV exists!"):
+                    self.remove_CV_from_Booking(booking_id)
+                    request = requests.put(f'http://127.0.0.1:8000/upload-cv?booking_id={booking_id}', files=files, headers=headers)
+                    print(request.status_code)
+                    print(request.text['message'])
+                    QMessageBox.about(self, "Success", f"CV untuk booking {booking_id} berhasil di upload!")
+                if (request.status_code == 200):
+                    QMessageBox.about(self, "Success", f"CV untuk booking {booking_id} berhasil di upload!")
+                self.delete_button.hide()
+                self.homescreen.show()
+                self.uploadButton.hide()
+                self.submitBookingButton.hide()
+                self.prosesReview.show()
+
+        else:
+            QMessageBox.warning(self, "Warning", "Please upload your CV file")
+    
+    def getPaketBooking(self, booking_id):
+        data = requests.get(f'http://127.0.0.1:8000/paket-of-booking?booking_id={booking_id}')
+        print(data.text)
+        return data
+    
+    def deleteCV(self):
+        self.uploadedFile = None
+        self.fileName.setText("No File Uploaded!")
+        self.delete_button.hide()
+
+    def remove_CV_from_Booking(self, booking_id):
+        req = requests.put(f'http://127.0.0.1:8000/remove-cv-from-booking?booking_id={booking_id}')
+        print(req.text)
+
+    def goToHomeScreen(self):
+        self.close()
+
+
 app=QApplication(sys.argv)
 widget=QtWidgets.QStackedWidget()
 widget.addWidget(Login()) #Index jadi 0
-widget.addWidget(CreateAcc()) 
-widget.addWidget(ResetPassword())
-widget.addWidget(AboutUs())  
+widget.addWidget(CreateAcc()) #Index jadi 1
+widget.addWidget(ResetPassword()) #Index jadi 2
+widget.addWidget(AboutUs())  #Index jadi 3
+widget.addWidget(HomeScreen())  #Index jadi 4
+widget.addWidget(UploadCV()) #Index jadi 5
 widget.setFixedWidth(1600)
 widget.setFixedHeight(900)
 widget.show()
 app.exec_()
+
