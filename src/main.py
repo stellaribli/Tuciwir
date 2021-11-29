@@ -127,7 +127,7 @@ class ResetPassword(QDialog):
 class AboutUs(QDialog):
     def __init__(self):
         super(AboutUs,self).__init__()
-        loadUi('aboutme.ui',self) 
+        loadUi('aboutus.ui',self) 
         self.logoutbutton.clicked.connect(self.gotologin)     
         self.aboutmebutton.clicked.connect(self.gotoaboutus) 
         # self.logoutbutton.connect(self.usr)
@@ -144,6 +144,8 @@ class AboutUs(QDialog):
     #     self.logoutbutton.setText(a)    
 
     def gotologin(self):
+        global loggedin
+        loggedin = False
         widget.setCurrentIndex(0)
     # def gotolayanan(self):
     #     widget.setCurrentIndex(#lalaalala)
@@ -151,7 +153,6 @@ class AboutUs(QDialog):
         widget.setCurrentIndex(3)    
 app=QApplication(sys.argv)
 widget=QtWidgets.QStackedWidget()
-
 widget.addWidget(Login()) #Index jadi 0
 widget.addWidget(CreateAcc()) 
 widget.addWidget(ResetPassword())
