@@ -1,14 +1,64 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QFileDialog, QDialog, QMessageBox, QPushButton, QLabel
-from PyQt5.uic import loadUi
 import sys
+from PyQt5.QtWidgets import QFileDialog, QPushButton, QDialog, QApplication, QWidget, QLabel, QMainWindow, QMessageBox, QCheckBox, QLineEdit
+from PyQt5.uic import loadUi
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from typing import List
+import requests
+import urllib
+import json
+from PyQt5 import QtCore, QtGui, QtWidgets
+import PyPDF2
+import os
+from PyQt5.QtWidgets import QApplication, QFileDialog, QDialog, QMessageBox, QPushButton, QLabel
 sys.path.insert(0, './src')
 import os
+import sys
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QLabel, QMainWindow
+from PyQt5.uic import loadUi
+from PyQt5.QtGui import QPixmap
+from re import search
+from typing import List
+from fastapi import Depends, FastAPI, HTTPException, UploadFile, File
+from sqlalchemy.orm import Session
+import psycopg2
+import sys
+sys.path.insert(0, './src')
+#import models
+#import schemas
+from database import db
+from fastapi.responses import FileResponse
+#import shutil
+import json
+import os
+import os.path
 import requests
 
 cur_booking_id = 1
 cur_user_ID = 1
 
+#Homepage
+class HomeScreen(QMainWindow):
+    def __init__(self):
+        super(HomeScreen, self).__init__()
+        loadUi('homescreen.ui', self)
+        self.setWindowTitle('Home Screen')
+        self.setWindowIcon(QtGui.QIcon('src/frontend/images/logo askel.png'))
+        self.bookingButton.clicked.connect(self.goToBooking)
+        self.statusPesananButton.clicked.connect(self.goToStatus)
+    
+
+    def goToBooking(self):
+        QMessageBox.about(self, "Info", "Go to booking")
+        pilihpaket = PilihPaket()
+        widget.addWidget(pilihpaket)
+        widget.setCurrentIndex(widget.currentIndex()+1)
+    
+    def goToStatus(self):
+        QMessageBox.about(self, "Info", "Go to status")
+
+#Pemesanan
 class PilihPaket(QDialog):
     def __init__(self):
         super(PilihPaket, self).__init__()
@@ -88,8 +138,11 @@ class Pembayaran(QDialog):
         data = requests.get(f'http://127.0.0.1:8000/booking-by-booking_id?booking_id={booking_id}')
         return data.json()
 
+#upload cv
+
+
 app = QApplication(sys.argv)
-window = PilihPaket()
+window = HomeScreen()
 widget=QtWidgets.QStackedWidget()
 widget.addWidget(window)
 widget.setFixedWidth(1000)

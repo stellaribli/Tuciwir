@@ -1,10 +1,15 @@
+from fastapi.security import OAuth2PasswordBearer
+from passlib.context import CryptContext
+from fastapi import Depends, FastAPI, HTTPException
+import sys
+sys.path.insert(0, './src')
+from database import db
 from re import search
 from typing import List
 from fastapi import Depends, FastAPI, HTTPException, UploadFile, File
 from sqlalchemy.orm import Session
 import psycopg2
 import sys
-
 from starlette.responses import Response
 sys.path.insert(0, './src')
 import models
@@ -16,11 +21,18 @@ import json
 import os
 import os.path
 
+SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+cur_booking_id = 0
+cur = db.connect()
 models.Base.metadata.create_all(bind=db)
-
 app = FastAPI()
 
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+#Agung
 def uniquify(path):
     filename, extension = os.path.splitext(path)
     counter = 1
@@ -31,13 +43,8 @@ def uniquify(path):
 
     return path
 
-cur = db.connect()
-
-cur_booking_id = 0
 # API Endpoints
-
-# Upload, Download Module
-@app.patch('/upload-cv/', tags=['Uploader'])
+@app.put('/upload-cv', tags=['Uploader'])
 async def upload_cv(booking_id: int, uploaded_file: UploadFile = File(...)):
     file_path = f"./cv_tuteers/{uploaded_file.filename}"
     file_location = uniquify(file_path)
@@ -68,7 +75,7 @@ async def upload_cv(booking_id: int, uploaded_file: UploadFile = File(...)):
 		status_code=404, detail=f'Booking not found!')
     
    
-@app.patch("/upload-review/", tags=['Uploader'])
+@app.put("/upload-review", tags=['Uploader'])
 async def upload_review(booking_id: int, reviewer_id: int, uploaded_file: UploadFile = File(...)):
     file_path = f"./hasil_review/{uploaded_file.filename}"
     file_location = uniquify(file_path)
@@ -100,7 +107,7 @@ async def upload_review(booking_id: int, reviewer_id: int, uploaded_file: Upload
     raise HTTPException(
 		status_code=404, detail=f'Review not found!')
 
-@app.get("/download-cv/", tags=['Downloader'])
+@app.get("/download-cv", tags=['Downloader'])
 async def download_tuteers_cv(booking_id: int):
     item_found = False
     search_formula = 'SELECT * FROM booking WHERE "ID_Booking" = %s'
@@ -120,8 +127,7 @@ async def download_tuteers_cv(booking_id: int):
     raise HTTPException(
         status_code=404, detail=f'Booking did not exist!')
 
-
-@app.get("/download-cv-review/", tags=['Downloader'])
+@app.get("/download-cv-review", tags=['Downloader'])
 async def download_review_cv(booking_id: int):
     item_found = False
     search_formula = 'SELECT * FROM review WHERE "ID_Booking" = %s'
@@ -142,8 +148,7 @@ async def download_review_cv(booking_id: int):
     raise HTTPException(
         status_code=404, detail=f'CV Review doesnt exists!')
 
-
-@app.patch('/remove-cv-from-booking/', tags=['Delete'])
+@app.put('/remove-cv-from-booking', tags=['Delete'])
 async def remove_cv_from_booking(booking_id: int):
     item_found = False
     search_formula = 'SELECT * FROM booking WHERE "ID_Booking" = %s'
@@ -168,7 +173,7 @@ async def remove_cv_from_booking(booking_id: int):
     raise HTTPException(
 		status_code=404, detail=f'Booking not found!')
 
-@app.patch('/delete-review/', tags=['Delete'])
+@app.put('/delete-review', tags=['Delete'])
 async def remove_cv_from_review(booking_id: int, reviewer_id: int):
     item_found = False
     search_formula = 'SELECT * FROM review WHERE "ID_Booking" = %s and "ID_Reviewer" = %s'
@@ -193,13 +198,11 @@ async def remove_cv_from_review(booking_id: int, reviewer_id: int):
     raise HTTPException(
 		status_code=404, detail=f'Review not found!')
 
-#GET
 @app.get("/review", tags=["Get"])
 async def get_all_review():
     item = cur.execute('SELECT * FROM review')
     result = item.fetchall()
     return result
-
 @app.get("/paket", tags=["Get"])
 async def get_all_paket():
     item = cur.execute('SELECT * FROM paket')
@@ -223,6 +226,7 @@ async def get_paket(paket_id: int):
     raise HTTPException(
 		status_code=404, detail=f'Paket not found!')
 
+
 @app.get("/paket-of-booking", tags=["Get"])
 async def get_paket_of_booking(booking_id: int):
     formula = 'select b."ID_Booking", p."ID_Paket", p.jumlah_cv, p.harga, p.durasi from booking b, paket p where b."ID_Paket" = p."ID_Paket" and b."ID_Booking" = %s'
@@ -234,7 +238,7 @@ async def get_paket_of_booking(booking_id: int):
         raise HTTPException(
 		    status_code=404, detail=f'Query Error!')
     return result
-
+    
 @app.get("/booking", tags=["Get"])
 async def get_all_booking():
     item = cur.execute('SELECT * FROM booking')
@@ -355,3 +359,123 @@ async def add_transaksi(booking_id: int):
         raise HTTPException(
 	        status_code=404, detail=f'Gagal melakukan transaksi')
     return {"message" : "Berhasil melakukan pembayaran untuk id booking " +str(booking_id)}
+
+#Stella
+def verify_password(plain_password, hashedPassword):
+    return pwd_context.verify(plain_password, hashedPassword)
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+def makeDateFormat(year: int, month: int, date: int):
+    return(str(year)+'-'+str(month)+'-'+str(date))
+
+@app.get('/ambilDataTuteers', tags = ['Manajemen Akun'])
+async def ambilSemua(em: str):
+    query = "SELECT * FROM tuteers WHERE email = '" + em + "';"
+    current_user_query = cur.execute(query)
+    return(current_user_query.fetchone())
+
+@app.get('/ambilDataReviewer', tags = ['Manajemen Akun'])
+async def ambilSemuaAdmin(em: str):
+    query = "SELECT * FROM reviewer WHERE email = '" + em + "';"
+    current_user_query = cur.execute(query)
+    return(current_user_query.fetchone())
+
+def apakahEmailExistTuteers(email:str):
+    query = "SELECT EXISTS(SELECT * from tuteers WHERE email = %s);"
+    values = email
+    Execute=cur.execute(query,values).fetchone()
+    return(Execute[0])
+
+def apakahEmailExistReviewer(email:str):
+    query = "SELECT EXISTS(SELECT * from reviewer WHERE email = %s);"
+    values = email
+    Execute=cur.execute(query,values).fetchone()
+    return(Execute[0])
+
+def ambilPassinDB(em:str):
+    query = 'SELECT "hashedPassword" FROM tuteers WHERE email = %s;'
+    current_user_query = cur.execute(query,em)
+    return(current_user_query.fetchone()[0])
+
+def ambilPassinDBRev(em:str):
+    query = 'SELECT "hashedPassword" FROM reviewer WHERE email = %s;'
+    current_user_query = cur.execute(query,em)
+    return(current_user_query.fetchone()[0])
+
+def authenticate_user(email: str, password: str):
+    a = False
+    if apakahEmailExistTuteers(email):
+        passdiDB = ambilPassinDB(email)
+        if verify_password(password, passdiDB):
+            a = True
+    return a
+
+def authenticate_user_reviewer(email: str, password: str):
+    a = False
+    if apakahEmailExistReviewer(email):
+        passdiDB = ambilPassinDBRev(email)
+        if verify_password(password, passdiDB):
+            a = True
+    return a
+
+@app.get('/login', tags = ['Manajemen Akun'])
+async def login (email: str, password: str):
+    if authenticate_user(email,password)==True:
+        return True
+    else:
+        return False
+
+@app.get('/loginadmin', tags = ['Manajemen Akun'])
+async def loginadm (email: str, password: str):
+    if authenticate_user_reviewer(email,password)==True:
+        return True
+    else:
+        return False
+
+@app.get('/resetPasswordSQL/', tags=["Manajemen Akun"])
+async def reset_password_sql(passbaru: str, email: str):
+    update_formula = 'UPDATE "tuteers" SET "hashedPassword" = %s WHERE "email" = %s'
+    values = (get_password_hash(passbaru),email)
+    item = cur.execute(update_formula, values)
+    return ("Query Update Success")
+
+@app.post('/registerSQL', tags = ['Manajemen Akun'])
+async def register_sql(name: str, email: str, password: str, reenterpass: str, noHP: str, year: str, month: str, date: str, gender: str):
+    if password == reenterpass:
+        tanggal =  makeDateFormat(year,month,date)
+        genderStr = gender
+        passwordhashed = get_password_hash(password)
+        query1 = 'INSERT INTO tuteers ("nama", "email", "noHP", "tanggalLahir", "gender","hashedPassword") VALUES'
+        query2 = "(%s,%s,%s,%s,%s,%s);"
+        query = query1+query2
+        values = (name, email, noHP, tanggal, genderStr, passwordhashed)   
+        cur.execute(query, values)
+        return('Success')
+    else:
+        return('Password Tidak Sama!')
+
+#Caca
+@app.get('/reviewerbookingdia', tags=["ReviewCV"])
+# async def read_all_booking(current_user: User = Depends(get_current_active_user)):
+async def review_booking():
+    item = cur.execute('SELECT b."ID_Booking", DATE(b."tgl_pesan") as tgl, r."isDone" FROM booking b, review r WHERE r."ID_Booking"=b."ID_Booking" AND r."ID_Reviewer"=1')
+    result = item.fetchall()
+    return result
+
+#halaman awal booking yg blm direview siapapun
+@app.get('/reviewerbooking', tags=["ReviewCV"])
+# async def read_all_booking(current_user: User = Depends(get_current_active_user)):
+async def read_all_booking():
+    item = cur.execute('SELECT "ID_Booking", DATE("tgl_pesan") as tgl FROM booking WHERE "ID_Booking" NOT IN (SELECT b."ID_Booking" FROM booking b, review r WHERE r."ID_Booking"=b."ID_Booking")')
+    result = item.fetchall()
+    return result
+
+# #pilih booking - masih salah
+@app.post('/reviewerpilihbooking/{id_booking}', tags=["ReviewCV"])
+async def choose_booking(id_booking:int, id_reviewer:int):
+    values = (id_reviewer,id_booking)
+    query = 'INSERT INTO review ("ID_Reviewer", "ID_Booking", "isDone") VALUES (%s,%s,false)'
+    item = cur.execute(query, values)
+    return('Success')
