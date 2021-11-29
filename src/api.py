@@ -461,7 +461,7 @@ async def register_sql(name: str, email: str, password: str, reenterpass: str, n
     else:
         return('Password Tidak Sama!')
 
-
+#Caca
 @app.get('/reviewerbookingdia', tags=["ReviewCV"])
 # async def read_all_booking(current_user: User = Depends(get_current_active_user)):
 async def review_booking():
@@ -478,9 +478,9 @@ async def read_all_booking():
     return result
 
 # #pilih booking - masih salah
-# @app.post('/reviewerpilihbooking/{id_booking}', tags=["ReviewCV"])
-# async def choose_booking(id_booking:int, id_reviewer:int):
-#     values = (id_reviewer,id_booking)
-#     query = 'INSERT INTO review ("ID_Reviewer", "ID_Booking", "isDone") VALUES (%s,%s,false)'
-#     item = cur.execute(query, values)
-#     return('Success')
+@app.post('/reviewerpilihbooking/{id_booking}', tags=["ReviewCV"])
+async def choose_booking(id_booking:int, id_reviewer:int):
+    values = (id_reviewer,id_booking)
+    query = 'INSERT INTO review ("ID_Reviewer", "ID_Booking", "isDone") VALUES (%s,%s,false)'
+    item = cur.execute(query, values)
+    return('Success')
