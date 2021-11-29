@@ -127,7 +127,6 @@ async def download_tuteers_cv(booking_id: int):
     raise HTTPException(
         status_code=404, detail=f'Booking did not exist!')
 
-
 @app.get("/download-cv-review", tags=['Downloader'])
 async def download_review_cv(booking_id: int):
     item_found = False
@@ -148,7 +147,6 @@ async def download_review_cv(booking_id: int):
         return FileResponse(path=path, filename=filename, media_type='application/pdf')
     raise HTTPException(
         status_code=404, detail=f'CV Review doesnt exists!')
-
 
 @app.put('/remove-cv-from-booking', tags=['Delete'])
 async def remove_cv_from_booking(booking_id: int):
@@ -174,7 +172,6 @@ async def remove_cv_from_booking(booking_id: int):
         return {"message": f"CV file has been deleted for booking number: {booking_id}'"}
     raise HTTPException(
 		status_code=404, detail=f'Booking not found!')
-
 
 @app.put('/delete-review', tags=['Delete'])
 async def remove_cv_from_review(booking_id: int, reviewer_id: int):
@@ -206,6 +203,28 @@ async def get_all_review():
     item = cur.execute('SELECT * FROM review')
     result = item.fetchall()
     return result
+@app.get("/paket", tags=["Get"])
+async def get_all_paket():
+    item = cur.execute('SELECT * FROM paket')
+    result = item.fetchall()
+    return result
+
+@app.get("/paket-by-paket_id", tags=["Get"])
+async def get_paket(paket_id: int):
+    item_found = False
+    search_formula = 'SELECT * FROM paket WHERE "ID_Paket" = %s'
+    values = (paket_id)
+    item = cur.execute(search_formula, values)
+    result = item.fetchone()
+    if result != None:
+        item_found = True
+        if result[0] == paket_id:
+            return result
+            
+    if item_found:
+        return {"message": f"Paket: {paket_id}'"}
+    raise HTTPException(
+		status_code=404, detail=f'Paket not found!')
 
 
 @app.get("/paket-of-booking", tags=["Get"])
@@ -220,8 +239,6 @@ async def get_paket_of_booking(booking_id: int):
 		    status_code=404, detail=f'Query Error!')
     return result
     
-
-
 @app.get("/booking", tags=["Get"])
 async def get_all_booking():
     item = cur.execute('SELECT * FROM booking')

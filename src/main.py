@@ -8,23 +8,14 @@ import requests
 import urllib
 import json
 from PyQt5 import QtCore, QtGui, QtWidgets
-sys.path.insert(0, './src')
 import PyPDF2
 import os
-from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog, QDialog, QMessageBox, QPushButton, QLabel
-from PyQt5.uic import loadUi
-import sys
 sys.path.insert(0, './src')
 import os
-import requests
 
 cur_booking_id = 1
 cur_user_ID = 1
-
-
-
-
 loggedin = False
 currentUser = ''
 currentName = ''
@@ -375,7 +366,6 @@ class Pembayaran(QDialog):
         data = requests.get(f'http://127.0.0.1:8000/booking-by-booking_id?booking_id={booking_id}')
         return data.json()
 
-
 #CacCAA
 
 
@@ -390,7 +380,7 @@ widget.addWidget(UploadCV()) #Index jadi 5
 widget.addWidget(PilihPaket()) #Index jadi 6
 widget.addWidget(Pembayaran()) #Index jadi 7
 
-widget.setCurrentIndex(7) 
+widget.setCurrentIndex(6) 
 widget.setFixedWidth(1600)
 widget.setFixedHeight(900)
 widget.show()
