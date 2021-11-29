@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication, QWidget, QLabel, QMainWindow
+from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QLabel, QMainWindow
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
 from re import search
@@ -22,14 +22,18 @@ import requests
 
 cur = db.connect()
 
-class MainReviewer(QDialog):
+class MainReviewer2(QDialog, QMainWindow):
     def __init__(self):
-        super(MainReviewer,self).__init__()
-        loadUi('reviewerall.ui',self)   
-        self.tabelsemuapesanan.setColumnWidth(0,300) 
+        super(MainReviewer2,self).__init__()
+        loadUi('reviewercus.ui',self)  
+        # ui = MainReviewer()
+        # ui.setupUi(self)
+        self.tabelsemuapesanan.setColumnWidth(0,200) 
         self.tabelsemuapesanan.setColumnWidth(1,400) 
         self.tabelsemuapesanan.setColumnWidth(2,300) 
+        self.buttonpesanan.clicked.connect(self.gotomain1)
         self.load_data()
+
 
     def load_data(self):
         headers = {'Accept': 'application/json'}
@@ -44,91 +48,62 @@ class MainReviewer(QDialog):
             else:
                 a="Dalam Review"
             self.tabelsemuapesanan.setItem(row, 0, QtWidgets.QTableWidgetItem(str(booking['ID_Booking'])))
-            self.tabelsemuapesanan.setItem(row, 1, QtWidgets.QTableWidgetItem(str(booking['tgl_pesan'])))
+            self.tabelsemuapesanan.setItem(row, 1, QtWidgets.QTableWidgetItem(str(booking['tgl'])))
             self.tabelsemuapesanan.setItem(row, 2, QtWidgets.QTableWidgetItem(a))
             row += 1
-        # item = cur.execute('SELECT b."ID_Booking", b."tgl_pesan", r."isDone" FROM booking b, review r WHERE r."ID_Booking"=b."ID_Booking"')
-        # isdone = cur.execute('SELECT r."isDone" FROM booking b, review r WHERE r."ID_Booking"=b."ID_Booking"')
-        # result = item.fetchall()
-        # resultisdone = isdone.fetchall()
-        # # return result
-        # tablerow = 0
-        # self.tabelsemuapesanan.setRowCount(5)
-        # # if item."isDone" = True:
-        # #     isDone = 'Sudah Selesai'
-        # tablerow = 0
-        # for row in result:
-        #     # for dua in resultisdone:
-        #     #     print(row)
-        #     #     if dua=="True":
-        #     #         dua="Sudah Selesai"
-        #     #     print(dua)
-        # # print("hai")
-        # # print(result[:2])
-        #     self.tabelsemuapesanan.setItem(tablerow, 0, QtWidgets.QTableWidgetItem(row[0]))
-        #     self.tabelsemuapesanan.setItem(tablerow, 1, QtWidgets.QTableWidgetItem(row[0]))
-        #     tablerow+=1
-# class Login(QDialog):
-#     def __init__(self):
-#         super(Login,self).__init__()
-#         loadUi('login.ui',self)
-#         self.loginbutton.clicked.connect(self.loginfunction)
-#         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
-#         self.createaccbutton.clicked.connect(self.gotocreate)
-        
-#     def loginfunction(self):
-#         email=self.email.text()
-#         password=self.password.text()
-#         print("Successfully logged in with email: ", email, "and password:", password)
-        
-#         data = requests.get('http://127.0.0.1:8000/booking')
-#         print(data.json())
+    
+    def gotomain1(self):
+        mainreviewer1=MainReviewer1()
+        widget.addWidget(mainreviewer1)
+        widget.setCurrentIndex(widget.currentIndex()+1)
 
-#     def gotocreate(self):
-#         createacc=CreateAcc()
-#         widget.addWidget(createacc)
-#         widget.setCurrentIndex(widget.currentIndex()+1)
+class MainReviewer1(QDialog, QMainWindow):
+    def __init__(self):
+        super(MainReviewer1,self).__init__()
+        loadUi('reviewerall.ui',self)  
+        # ui = MainReviewer()
+        # ui.setupUi(self)
+        self.tabelsemuapesanan.setColumnWidth(0,200) 
+        self.tabelsemuapesanan.setColumnWidth(1,400) 
+        self.tabelsemuapesanan.setColumnWidth(2,300) 
+        self.buttonpesanandia.clicked.connect(self.gotomain2)
+        self.load_data1()
 
-# class CreateAcc(QDialog):
-#     def __init__(self):
-#         super(CreateAcc,self).__init__()
-#         loadUi("createacc.ui",self)
-#         self.signupbutton.clicked.connect(self.createaccfunction)
-#         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
-#         self.confirmpass.setEchoMode(QtWidgets.QLineEdit.Password)
-#         self.loginaccbutton.clicked.connect(self.gotologin)
+    def load_data1(self):
+        headers = {'Accept': 'application/json'}
+        req = requests.get('http://127.0.0.1:8000/bookingall', headers=headers)
+        booking_data = req.json()
+        self.tabelsemuapesanan.setRowCount(len(booking_data))
+        row = 0
+        a="Belum Direview"
+        for booking in (booking_data):
+            self.tabelsemuapesanan.setItem(row, 0, QtWidgets.QTableWidgetItem(str(booking['ID_Booking'])))
+            self.tabelsemuapesanan.setItem(row, 1, QtWidgets.QTableWidgetItem(str(booking['tgl'])))
+            self.tabelsemuapesanan.setItem(row, 2, QtWidgets.QTableWidgetItem(a))
+            row += 1
+            # btn = QPushButton(self.tabelsemuapesanan)
+            # btn.setText('add')
+            # self.tabelsemuapesanan.setCellWidget(booking, 4, btn)
 
+    def gotomain2(self):
+        mainreviewer2=MainReviewer2()
+        widget.addWidget(mainreviewer2)
+        widget.setCurrentIndex(widget.currentIndex()+1)
+    
+# void MyClass::MySlot()
+# {
+#     for (int i = 0; i < 10; ++i) {
+#         QPushButton button = new QPushButton(this);
+#         button.setText(QString::number(i));
+#         connect(button, SIGNAL(clicked(bool)), this, SLOT(onClicked(bool)));
+#         layout().addWidget(button); 
+#         button.show();
+#     }
+# }
 
-#     def createaccfunction(self):
-#         namalengkap = self.namalengkap.text()
-#         email = self.email.text()
-#         tanggallahir = self.tanggallahir.text()
-#         jeniskelamin = self.jeniskelamin.text()
-#         nomorhp = self.nomorhp.text()
-#         if self.password.text()==self.confirmpass.text():
-#             password=self.password.text()
-#             print("Successfully created acc with email: ", email)
-#             text_file = open("login.txt", "w")
-#             text_file.write(namalengkap + '\n')
-#             text_file.write(email + '\n')
-#             text_file.write(tanggallahir + '\n')
-#             text_file.write(jeniskelamin + '\n')
-#             text_file.write(nomorhp + '\n')
-#             text_file.write(password)
-#             text_file.close()
-#             login=Login()
-#             widget.addWidget(login)
-#             widget.setCurrentIndex(widget.currentIndex()+1)
-#         else:
-#             print("Password Berbeda!")
-
-#     def gotologin(self):
-#         loginacc=Login()
-#         widget.addWidget(loginacc)
-#         widget.setCurrentIndex(widget.currentIndex()+1)
 
 app=QApplication(sys.argv)
-mainreviewer=MainReviewer()
+mainreviewer=MainReviewer1()
 widget=QtWidgets.QStackedWidget()
 widget.addWidget(mainreviewer)
 widget.setFixedWidth(1600)
