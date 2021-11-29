@@ -19,7 +19,6 @@ class Login(QDialog):
         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.createaccbutton.clicked.connect(self.gotocreate)
         self.loginaccbutton_3.clicked.connect(self.gotoreset)
-        
     def loginfunction(self):
         email=self.email.text()
         password=self.password.text()
@@ -38,6 +37,8 @@ class Login(QDialog):
             hasil =  requests.get(url)
             currentUser = hasil.json()
             widget.setCurrentIndex(3) #Nanti diganti jadi ke tuteers
+            self.email.setText("")
+            self.password.setText("")
         else:
             url = 'http://127.0.0.1:8000/loginadmin?' + parsed
             hasil =  requests.get(url)
@@ -50,6 +51,8 @@ class Login(QDialog):
                 currentUser = hasil.json()
                 print(currentUser)
                 widget.setCurrentIndex(3) #nanti diganti ke admin
+                self.email.setText("")
+                self.password.setText("")
             else:
                 loggedin = False
                 msg = QMessageBox()
@@ -61,9 +64,13 @@ class Login(QDialog):
 
     def gotocreate(self):
         widget.setCurrentIndex(1)
+        self.email.setText("")
+        self.password.setText("")
 
     def gotoreset(self):
         widget.setCurrentIndex(2)
+        self.email.setText("")
+        self.password.setText("")
     
 class CreateAcc(QDialog):
     def __init__(self):
@@ -97,7 +104,14 @@ class CreateAcc(QDialog):
             requests.post(url)
             QLineEdit.clear(self)
             widget.setCurrentIndex(0)
-            
+            self.namalengkap.setText("")
+            self.email.setText("")
+            self.year.setText("")
+            self.month.setText("")
+            self.date.setText("")
+            self.nomorhp.setText("")
+            self.password.setText("")
+            self.confirmpass.setText("")
         else:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
@@ -107,7 +121,14 @@ class CreateAcc(QDialog):
 
     def gotologin(self):
         widget.setCurrentIndex(0)
-
+        self.namalengkap.setText("")
+        self.email.setText("")
+        self.year.setText("")
+        self.month.setText("")
+        self.date.setText("")
+        self.nomorhp.setText("")
+        self.password.setText("")
+        self.confirmpass.setText("")
 class ResetPassword(QDialog):
     def __init__(self):
         super(ResetPassword,self).__init__()
@@ -121,8 +142,14 @@ class ResetPassword(QDialog):
             url = 'http://127.0.0.1:8000/resetPasswordSQL/?' + parsed
             requests.get(url)
             widget.setCurrentIndex(0)
+            self.passbaru.setText("")
+            self.passbaru_2.setText("")
+            self.passlama.setText("")
     def back(self):
         widget.setCurrentIndex(0) 
+        self.passbaru.setText("")
+        self.passbaru_2.setText("")
+        self.passlama.setText("")
 
 class AboutUs(QDialog):
     def __init__(self):
@@ -150,7 +177,8 @@ class AboutUs(QDialog):
     # def gotolayanan(self):
     #     widget.setCurrentIndex(#lalaalala)
     def gotoaboutus(self):
-        widget.setCurrentIndex(3)    
+        widget.setCurrentIndex(3) 
+           
 app=QApplication(sys.argv)
 widget=QtWidgets.QStackedWidget()
 widget.addWidget(Login()) #Index jadi 0
