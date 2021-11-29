@@ -31,13 +31,15 @@ class MainReviewer2(QDialog, QMainWindow):
         self.tabelsemuapesanan.setColumnWidth(0,200) 
         self.tabelsemuapesanan.setColumnWidth(1,400) 
         self.tabelsemuapesanan.setColumnWidth(2,300) 
+        self.tabelsemuapesanan.setColumnWidth(3,170)  
+        self.tabelsemuapesanan.setColumnWidth(4,170)  
         self.buttonpesanan.clicked.connect(self.gotomain1)
         self.load_data()
 
 
     def load_data(self):
         headers = {'Accept': 'application/json'}
-        req = requests.get('http://127.0.0.1:8000/booking', headers=headers)
+        req = requests.get('http://127.0.0.1:8000/reviewerbookingdia', headers=headers)
         booking_data = req.json()
         self.tabelsemuapesanan.setRowCount(len(booking_data))
         row = 0
@@ -50,6 +52,12 @@ class MainReviewer2(QDialog, QMainWindow):
             self.tabelsemuapesanan.setItem(row, 0, QtWidgets.QTableWidgetItem(str(booking['ID_Booking'])))
             self.tabelsemuapesanan.setItem(row, 1, QtWidgets.QTableWidgetItem(str(booking['tgl'])))
             self.tabelsemuapesanan.setItem(row, 2, QtWidgets.QTableWidgetItem(a))
+            btn = QPushButton(self.tabelsemuapesanan)
+            btn1 = QPushButton(self.tabelsemuapesanan)
+            btn.setText('Unduh')
+            btn1.setText('Unggah')
+            self.tabelsemuapesanan.setCellWidget(row, 3, btn)
+            self.tabelsemuapesanan.setCellWidget(row, 4, btn1)
             row += 1
     
     def gotomain1(self):
@@ -65,13 +73,14 @@ class MainReviewer1(QDialog, QMainWindow):
         # ui.setupUi(self)
         self.tabelsemuapesanan.setColumnWidth(0,200) 
         self.tabelsemuapesanan.setColumnWidth(1,400) 
-        self.tabelsemuapesanan.setColumnWidth(2,300) 
+        self.tabelsemuapesanan.setColumnWidth(2,300)
+        self.tabelsemuapesanan.setColumnWidth(3,170)  
         self.buttonpesanandia.clicked.connect(self.gotomain2)
         self.load_data1()
 
     def load_data1(self):
         headers = {'Accept': 'application/json'}
-        req = requests.get('http://127.0.0.1:8000/bookingall', headers=headers)
+        req = requests.get('http://127.0.0.1:8000/reviewerbooking', headers=headers)
         booking_data = req.json()
         self.tabelsemuapesanan.setRowCount(len(booking_data))
         row = 0
@@ -80,10 +89,11 @@ class MainReviewer1(QDialog, QMainWindow):
             self.tabelsemuapesanan.setItem(row, 0, QtWidgets.QTableWidgetItem(str(booking['ID_Booking'])))
             self.tabelsemuapesanan.setItem(row, 1, QtWidgets.QTableWidgetItem(str(booking['tgl'])))
             self.tabelsemuapesanan.setItem(row, 2, QtWidgets.QTableWidgetItem(a))
+            btn = QPushButton(self.tabelsemuapesanan)
+            btn.setText('Pilih')
+            self.tabelsemuapesanan.setCellWidget(row, 3, btn)
+            # self.QPushButton(self.tabelsemuapesanan).clicked.connect(self.gotomain2)
             row += 1
-            # btn = QPushButton(self.tabelsemuapesanan)
-            # btn.setText('add')
-            # self.tabelsemuapesanan.setCellWidget(booking, 4, btn)
 
     def gotomain2(self):
         mainreviewer2=MainReviewer2()
