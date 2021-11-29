@@ -126,7 +126,7 @@ async def Data_User():
 #     result = item.fetchall()
 #     return result
 
-@app.get('/booking', tags=["Booking"])
+@app.get('/reviewerbookingdia', tags=["ReviewCV"])
 # async def read_all_booking(current_user: User = Depends(get_current_active_user)):
 async def review_booking():
     item = cur.execute('SELECT b."ID_Booking", DATE(b."tgl_pesan") as tgl, r."isDone" FROM booking b, review r WHERE r."ID_Booking"=b."ID_Booking" AND r."ID_Reviewer"=1')
@@ -134,7 +134,7 @@ async def review_booking():
     return result
 
 #halaman awal booking yg blm direview siapapun
-@app.get('/bookingall', tags=["Booking"])
+@app.get('/reviewerbooking', tags=["ReviewCV"])
 # async def read_all_booking(current_user: User = Depends(get_current_active_user)):
 async def read_all_booking():
     item = cur.execute('SELECT "ID_Booking", DATE("tgl_pesan") as tgl FROM booking WHERE "ID_Booking" NOT IN (SELECT b."ID_Booking" FROM booking b, review r WHERE r."ID_Booking"=b."ID_Booking")')
@@ -142,7 +142,7 @@ async def read_all_booking():
     return result
 
 #pilih booking
-@app.post('/booking/{id_booking}', tags=["Booking"])
+@app.post('/reviewerpilihbooking/{id_booking}', tags=["ReviewCV"])
 async def choose_booking(id_booking:int, id_reviewer:int):
     values = (id_reviewer,id_booking)
     query = 'INSERT INTO review ("ID_Reviewer", "ID_Booking", "isDone") VALUES (%s,%s,false)'
@@ -151,8 +151,8 @@ async def choose_booking(id_booking:int, id_reviewer:int):
 
 #-----------------------------------------------------------------------
 
-@app.get('/review', tags=["Booking"])
-async def read_all_review():
-    item = cur.execute('SELECT * FROM review')
-    result = item.fetchall()
-    return result
+# @app.get('/review', tags=["Booking"])
+# async def read_all_review():
+#     item = cur.execute('SELECT * FROM review')
+#     result = item.fetchall()
+#     return result
