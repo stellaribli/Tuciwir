@@ -101,6 +101,11 @@ border-bottom: 1px solid #1D2D5E;</string>
      <string>Status</string>
     </property>
    </column>
+   <column>
+    <property name="text">
+     <string> </string>
+    </property>
+   </column>
   </widget>
   <widget class="QPushButton" name="buttonpesanandia">
    <property name="geometry">
