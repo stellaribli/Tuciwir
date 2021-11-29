@@ -10,8 +10,9 @@ import urllib
 import json
 
 loggedin = False
-currentUser = ''
-currentName = ''
+currentUser = '1'
+currentName = '1'
+
 class Login(QDialog):
     def __init__(self):
         super(Login,self).__init__()
@@ -20,6 +21,7 @@ class Login(QDialog):
         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.createaccbutton.clicked.connect(self.gotocreate)
         self.loginaccbutton_3.clicked.connect(self.gotoreset)
+
     def loginfunction(self):
         email=self.email.text()
         password=self.password.text()
@@ -42,6 +44,7 @@ class Login(QDialog):
             widget.setCurrentIndex(3) #Nanti diganti jadi ke tuteers
             self.email.setText("")
             self.password.setText("")
+            print(currentName)
         else:
             url = 'http://127.0.0.1:8000/loginadmin?' + parsed
             hasil =  requests.get(url)
@@ -52,7 +55,7 @@ class Login(QDialog):
                 url = 'http://127.0.0.1:8000/ambilDataReviewer?' + parsed
                 hasil =  requests.get(url)
                 currentUser = hasil.json()
-                print(currentUser)
+                # print(currentUser)
                 widget.setCurrentIndex(3) #nanti diganti ke admin
                 self.email.setText("")
                 self.password.setText("")
@@ -63,8 +66,6 @@ class Login(QDialog):
                 msg.setText("Error")
                 msg.setInformativeText('Login Tidak Berhasil!')
                 msg.exec_()
-        # print(currentUser)
-        # print(currentUser['nama'])
         return
 
     def gotocreate(self):
@@ -76,7 +77,7 @@ class Login(QDialog):
         widget.setCurrentIndex(2)
         self.email.setText("")
         self.password.setText("")
-    
+
 class CreateAcc(QDialog):
     def __init__(self):
         super(CreateAcc,self).__init__()
@@ -161,16 +162,17 @@ class AboutUs(QDialog):
     def __init__(self):
         super(AboutUs,self).__init__()
         loadUi('aboutus.ui',self) 
+        self.usr()
+        self.show()
+        # self.logoutbutton.clicked.connect(currentName) 
         self.logoutbutton.clicked.connect(self.gotologin)     
         self.aboutmebutton.clicked.connect(self.gotoaboutus) 
-        # self.aboutmebutton.clicked.connect(self.usr)
-        # self.connect(self.usr)
-        # self.layananbutton.clicked.connect(self.gotolayanan) 
         
     def usr(self): 
         global currentName
         print(currentName)
         self.logoutbutton.setText(currentName) 
+        self.show()
 
     def gotologin(self):
         global loggedin

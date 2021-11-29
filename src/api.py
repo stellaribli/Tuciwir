@@ -89,12 +89,6 @@ async def loginadm (email: str, password: str):
     else:
         return False
 
-@app.get("/tuteers")
-async def gettuteers():
-    item = cur.execute('SELECT * FROM tuteers')
-    result = item.fetchall()
-    return result
-
 @app.get('/resetPasswordSQL/', tags=["Manajemen Akun"])
 async def reset_password_sql(passbaru: str, email: str):
     update_formula = 'UPDATE "tuteers" SET "hashedPassword" = %s WHERE "email" = %s'
