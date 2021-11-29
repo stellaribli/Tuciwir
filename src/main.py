@@ -11,6 +11,7 @@ import json
 
 loggedin = False
 currentUser = ''
+currentName = ''
 class Login(QDialog):
     def __init__(self):
         super(Login,self).__init__()
@@ -29,6 +30,7 @@ class Login(QDialog):
         x = str(hasil.text)
         global loggedin
         global currentUser 
+        global currentName
         if hasil.text == "true":
             loggedin = True
             f = {'em' : email}
@@ -36,6 +38,7 @@ class Login(QDialog):
             url = 'http://127.0.0.1:8000/ambilDataTuteers?' + parsed
             hasil =  requests.get(url)
             currentUser = hasil.json()
+            currentName = currentUser['nama']
             widget.setCurrentIndex(3) #Nanti diganti jadi ke tuteers
             self.email.setText("")
             self.password.setText("")
@@ -60,6 +63,8 @@ class Login(QDialog):
                 msg.setText("Error")
                 msg.setInformativeText('Login Tidak Berhasil!')
                 msg.exec_()
+        # print(currentUser)
+        # print(currentUser['nama'])
         return
 
     def gotocreate(self):
@@ -129,6 +134,7 @@ class CreateAcc(QDialog):
         self.nomorhp.setText("")
         self.password.setText("")
         self.confirmpass.setText("")
+        
 class ResetPassword(QDialog):
     def __init__(self):
         super(ResetPassword,self).__init__()
@@ -157,25 +163,23 @@ class AboutUs(QDialog):
         loadUi('aboutus.ui',self) 
         self.logoutbutton.clicked.connect(self.gotologin)     
         self.aboutmebutton.clicked.connect(self.gotoaboutus) 
-        # self.logoutbutton.connect(self.usr)
+        # self.aboutmebutton.clicked.connect(self.usr)
+        # self.connect(self.usr)
         # self.layananbutton.clicked.connect(self.gotolayanan) 
-    
-    # def usr(self):
-    #     # a = (currentUser['nama'])
-    #     a=""
-    #     a = 'sstela'
-    #     print(currentUser)
-    #     if (currentUser!=''):
-    #         a = currentUser['nama']
-    #         a = a[0:]
-    #     self.logoutbutton.setText(a)    
+        
+    def usr(self): 
+        global currentName
+        print(currentName)
+        self.logoutbutton.setText(currentName) 
 
     def gotologin(self):
         global loggedin
         loggedin = False
         widget.setCurrentIndex(0)
+
     # def gotolayanan(self):
     #     widget.setCurrentIndex(#lalaalala)
+
     def gotoaboutus(self):
         widget.setCurrentIndex(3) 
            
