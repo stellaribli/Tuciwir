@@ -193,17 +193,16 @@ class AboutUs(QDialog):
     def __init__(self):
         super(AboutUs,self).__init__()
         loadUi('aboutus.ui',self) 
-        self.usr()
+        # self.usr()
         self.show()
-        # self.logoutbutton.clicked.connect(currentName) 
         self.logoutbutton.clicked.connect(self.gotologin)     
         self.aboutmebutton.clicked.connect(self.gotoaboutus) 
         
-    def usr(self): 
-        global currentName
-        print(currentName)
-        self.logoutbutton.setText(currentName) 
-        self.show()
+    # def usr(self): 
+    #     global currentName
+    #     print(currentName)
+    #     self.logoutbutton.setText(currentName) 
+    #     self.show()
 
     def gotologin(self):
         global loggedin
@@ -469,7 +468,7 @@ widget.addWidget(PilihPaket()) #Index jadi 6
 widget.addWidget(Pembayaran()) #Index jadi 7
 widget.addWidget(MainReviewer1()) #Index jadi 8
 widget.addWidget(MainReviewer2()) #Index jadi 9
-widget.setCurrentIndex(8) 
+widget.setCurrentIndex(0) 
 widget.setFixedWidth(1600)
 widget.setFixedHeight(900)
 widget.show()
