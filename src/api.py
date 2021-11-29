@@ -206,7 +206,7 @@ async def get_all_paket():
     result = item.fetchall()
     return result
 
-@app.get("/paket/{paket_id}", tags=["Get"])
+@app.get("/paket-by-paket_id", tags=["Get"])
 async def get_paket(paket_id: int):
     item_found = False
     search_formula = 'SELECT * FROM paket WHERE "ID_Paket" = %s'
@@ -229,7 +229,7 @@ async def get_all_booking():
     result = item.fetchall()
     return result
 
-@app.get("/booking/{booking_id}", tags=["Get"])
+@app.get("/booking-by-booking_id", tags=["Get"])
 async def get_booking(booking_id: int):
     item_found = False
     search_formula = 'SELECT * FROM booking WHERE "ID_Booking" = %s'
@@ -246,7 +246,7 @@ async def get_booking(booking_id: int):
     raise HTTPException(
 		status_code=404, detail=f'Booking not found!')
     
-@app.get("/booking/{tuteers_id}", tags=["Get"])
+@app.get("/booking-by-tuteers_id", tags=["Get"])
 async def get_booking_by_tuteers_id(tuteers_id: int):
     item_found = False
     booking_id = cur_booking_id
@@ -271,7 +271,7 @@ async def get_all_transaksi():
     result = item.fetchall()
     return result
 
-@app.get("/transaksi/{transaksi_id}", tags=["Get"])
+@app.get("/transaksi-by-transaksi_id", tags=["Get"])
 async def get_transaksi(transaksi_id: int):
     item_found = False
     search_formula = 'SELECT * FROM transaksi WHERE "ID_Transaksi" = %s'
@@ -289,14 +289,14 @@ async def get_transaksi(transaksi_id: int):
 		status_code=404, detail=f'Transaksi not found!')
 
 #DELETE
-@app.delete("/delete-booking/{booking_id}", tags=["Delete"])
+@app.delete("/delete-booking-by-booking_id", tags=["Delete"])
 async def delete_booking(booking_id : int):
     delete_formula = 'DELETE FROM booking where "ID_Booking" = %s'
     values = (booking_id)
     item = cur.execute(delete_formula, values)
     return {"message" : "Booking dengan id " +str(booking_id)+ " berhasil dihapus"}
 
-@app.delete("/delete-transaksi/{transaksi_id}", tags=["Delete"])
+@app.delete("/delete-transaksi-by-transaksi_id", tags=["Delete"])
 async def delete_transaksi(transaksi_id : int):
     delete_formula = 'DELETE FROM transaksi where "ID_Transaksi" = %s'
     values = (transaksi_id)
@@ -336,7 +336,7 @@ async def add_transaksi(booking_id: int):
 		    status_code=404, detail=f'Tidak bisa membuat id transaksi')
     transaksi_id = int(current_transaksi_id)+1
     add_formula = 'INSERT INTO transaksi ("ID_Transaksi", "ID_Booking", "Metode_Pembayaran", "Bukti_Pembayaran") values (%s, %s, %s, true)'
-    values = (transaksi_id, booking_id, "BCA VA")
+    values = (transaksi_id, booking_id, "BCA Virtual Account")
     try:
         item2 = cur.execute(add_formula, values)
     except Exception as E:

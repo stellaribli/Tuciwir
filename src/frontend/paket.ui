@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>Dialog</class>
  <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>951</width>
+    <height>491</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -32,7 +40,6 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(232, 232, 232);
-box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
 border-radius: 16px;</string>
    </property>
    <property name="frameShape">
@@ -44,9 +51,9 @@ border-radius: 16px;</string>
    <widget class="QLabel" name="jmlCV">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>80</x>
       <y>20</y>
-      <width>91</width>
+      <width>51</width>
       <height>31</height>
      </rect>
     </property>
@@ -59,15 +66,15 @@ border-radius: 16px;</string>
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;X CV&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;X CV&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="jmlHari">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>80</x>
       <y>70</y>
-      <width>91</width>
+      <width>51</width>
       <height>31</height>
      </rect>
     </property>
@@ -80,34 +87,10 @@ border-radius: 16px;</string>
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;X Hari&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;X Hari&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="harga">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>120</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Mulish</family>
-      <pointsize>12</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Rp XXX&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="PesanPaket1">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -126,8 +109,29 @@ border-radius: 10px</string>
      <string>Pesan</string>
     </property>
    </widget>
+   <widget class="QLabel" name="harga">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>120</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Mulish</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Rp XXX&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QFrame" name="frame_2">
+  <widget class="QFrame" name="Paket2">
    <property name="geometry">
     <rect>
      <x>380</x>
@@ -138,7 +142,6 @@ border-radius: 10px</string>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(232, 232, 232);
-box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
 border-radius: 16px;</string>
    </property>
    <property name="frameShape">
@@ -150,9 +153,9 @@ border-radius: 16px;</string>
    <widget class="QLabel" name="jmlCV_2">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>80</x>
       <y>20</y>
-      <width>91</width>
+      <width>51</width>
       <height>31</height>
      </rect>
     </property>
@@ -165,15 +168,15 @@ border-radius: 16px;</string>
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;X CV&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;X CV&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="jmlHari_2">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>80</x>
       <y>70</y>
-      <width>91</width>
+      <width>51</width>
       <height>31</height>
      </rect>
     </property>
@@ -186,34 +189,10 @@ border-radius: 16px;</string>
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;X Hari&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;X Hari&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="harga_2">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>120</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Mulish</family>
-      <pointsize>12</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Rp XXX&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="PesanPaket2">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -232,8 +211,29 @@ border-radius: 10px</string>
      <string>Pesan</string>
     </property>
    </widget>
+   <widget class="QLabel" name="harga_2">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>120</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Mulish</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Rp XXX&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QFrame" name="paket3">
+  <widget class="QFrame" name="Paket3">
    <property name="geometry">
     <rect>
      <x>620</x>
@@ -244,7 +244,6 @@ border-radius: 10px</string>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(232, 232, 232);
-box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
 border-radius: 16px;</string>
    </property>
    <property name="frameShape">
@@ -256,9 +255,9 @@ border-radius: 16px;</string>
    <widget class="QLabel" name="jmlCV_3">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>80</x>
       <y>20</y>
-      <width>91</width>
+      <width>51</width>
       <height>31</height>
      </rect>
     </property>
@@ -271,15 +270,15 @@ border-radius: 16px;</string>
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;X CV&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;X CV&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="jmlHari_3">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>80</x>
       <y>70</y>
-      <width>91</width>
+      <width>51</width>
       <height>31</height>
      </rect>
     </property>
@@ -292,34 +291,10 @@ border-radius: 16px;</string>
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;X Hari&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;X Hari&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="harga_3">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>120</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Mulish</family>
-      <pointsize>12</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Rp XXX&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="PesanPaket3">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -336,6 +311,27 @@ border-radius: 10px</string>
     </property>
     <property name="text">
      <string>Pesan</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="harga_3">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>120</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Mulish</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Rp XXX&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>
