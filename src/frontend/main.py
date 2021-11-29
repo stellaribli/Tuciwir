@@ -33,11 +33,18 @@ class PilihPaket(QDialog):
         req = requests.post(f'http://127.0.0.1:8000/create-booking?paket_id={paket_id}&tuteers_id={tuteers_id}')
         if paket_id:
             print("Berhasil membuat pesanan")
+
+            #update current id booking
             dataBooking = requests.get(f'http://127.0.0.1:8000/booking-by-tuteers_id?tuteers_id={tuteers_id}')
             booking_id = int(dataBooking.json())
             cur_booking_id = booking_id
             print("id Booking saat ini " + str(cur_booking_id))
-            self.close()
+
+            #go to pembayaran
+            pembayaran=Pembayaran()
+            widget.addWidget(pembayaran)
+            widget.setCurrentIndex(widget.currentIndex()+1)
+            #self.close()
 
     def getPaket(self, paket_id):
         data = requests.get(f'http://127.0.0.1:8000/paket-by-paket_id?paket_id={paket_id}')
@@ -67,7 +74,10 @@ class Pembayaran(QDialog):
         req = requests.delete(f'http://127.0.0.1:8000/delete-booking-by-booking_id?booking_id={booking_id}')
         if booking_id:
             print("berhasil membatalkan pesanan dengan No. Booking "+str(booking_id))
-            self.close()
+            pilihpaket = PilihPaket()
+            widget.addWidget(pilihpaket)
+            widget.setCurrentIndex(widget.currentIndex()+1)
+            #self.close()
 
     def getPaketofBooking(self, booking_id):
         data = requests.get(f'http://127.0.0.1:8000/paket-of-booking?booking_id={booking_id}')
@@ -79,5 +89,9 @@ class Pembayaran(QDialog):
 
 app = QApplication(sys.argv)
 window = PilihPaket()
-window.show()
+widget=QtWidgets.QStackedWidget()
+widget.addWidget(window)
+widget.setFixedWidth(900)
+widget.setFixedHeight(500)
+widget.show()
 app.exec_()
