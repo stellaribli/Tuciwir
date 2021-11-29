@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1440</width>
-    <height>804</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>600</x>
-     <y>230</y>
+     <x>450</x>
+     <y>200</y>
      <width>391</width>
      <height>41</height>
     </rect>
@@ -39,8 +39,8 @@ font: 30pt &quot;Mulish&quot;;</string>
   <widget class="QLineEdit" name="passlama">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>300</y>
+     <x>460</x>
+     <y>270</y>
      <width>401</width>
      <height>41</height>
     </rect>
@@ -65,8 +65,8 @@ padding-left:15px;</string>
   <widget class="QLineEdit" name="passbaru">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>350</y>
+     <x>460</x>
+     <y>320</y>
      <width>401</width>
      <height>41</height>
     </rect>
@@ -94,8 +94,8 @@ padding-left:15px;</string>
   <widget class="QPushButton" name="simpanbutton">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>460</y>
+     <x>460</x>
+     <y>430</y>
      <width>401</width>
      <height>41</height>
     </rect>
@@ -120,8 +120,8 @@ padding-left:15px;</string>
   <widget class="QLineEdit" name="passbaru_2">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>400</y>
+     <x>460</x>
+     <y>370</y>
      <width>401</width>
      <height>41</height>
     </rect>

@@ -64,6 +64,7 @@ class Login(QDialog):
         global loggedin
         global currentUser 
         global currentName
+        global cur_user_ID
         if hasil.text == "true":
             loggedin = True
             f = {'em' : email}
@@ -72,6 +73,8 @@ class Login(QDialog):
             hasil =  requests.get(url)
             currentUser = hasil.json()
             currentName = currentUser['nama']
+            cur_user_ID = currentUser['ID_Tuteers']
+            print(cur_user_ID)
             widget.setCurrentIndex(4) #Nanti diganti jadi ke tuteers
             self.email.setText("")
             self.password.setText("")
@@ -227,6 +230,7 @@ class HomeScreen(QMainWindow):
     
 
     def goToBooking(self):
+        widget.setCurrentIndex(6)
         QMessageBox.about(self, "Info", "Go to booking")
     
     def goToStatus(self):
@@ -236,11 +240,14 @@ class UploadCV(QDialog):
     def __init__(self):
         super(UploadCV, self).__init__()
         loadUi("uploadcv.ui", self)
+        print("uploadcv " + str(cur_booking_id))
+        print("uploadcv " + str(cur_user_ID))
+        print("uploadcv " + str(self.getPaketBooking(cur_booking_id)))
         self.setWindowTitle('Upload CV')
         self.uploadButton.clicked.connect(self.uploadCV)
         self.uploadedFile = None
-        self.dataPaket = self.getPaketBooking(booking_id)
-        self.submitBookingButton.clicked.connect(lambda: self.submitBooking(booking_id))
+        self.dataPaket = self.getPaketBooking(cur_booking_id)
+        self.submitBookingButton.clicked.connect(lambda: self.submitBooking(cur_booking_id))
         self.jmlCV.setText(str(self.dataPaket.json()['jumlah_cv']) + "CV")
         self.jmlHari.setText(str(self.dataPaket.json()['durasi']) + " Hari")
         self.rincian.setText("Paket " + str(self.dataPaket.json()['jumlah_cv']) + " CV " + str(self.dataPaket.json()['durasi']) + " Hari")
@@ -251,7 +258,17 @@ class UploadCV(QDialog):
         self.prosesReview.hide()
         self.delete_button.clicked.connect(self.deleteCV)
         self.homescreen.clicked.connect(self.goToHomeScreen)
+        self.reloadUi()
 
+    def reloadUi(self):
+        self.dataPaket = self.getPaketBooking(cur_booking_id)
+        self.submitBookingButton.clicked.connect(lambda: self.submitBooking(cur_booking_id))
+        self.jmlCV.setText(str(self.dataPaket.json()['jumlah_cv']) + "CV")
+        self.jmlHari.setText(str(self.dataPaket.json()['durasi']) + " Hari")
+        self.rincian.setText("Paket " + str(self.dataPaket.json()['jumlah_cv']) + " CV " + str(self.dataPaket.json()['durasi']) + " Hari")
+        self.harga.setText("Rp" + str(self.dataPaket.json()['harga']))
+        self.bookingNumber.setText("#" + str(self.dataPaket.json()['ID_Booking']))
+    
     def uploadCV(self):
         fileName, _ = QFileDialog.getOpenFileName(self, "Upload CV File", "", "PDF Files (*.pdf)")
         if fileName:
@@ -304,6 +321,8 @@ class UploadCV(QDialog):
     def goToHomeScreen(self):
         self.close()
 
+
+
 #Agunk
 class PilihPaket(QDialog):
     def __init__(self):
@@ -340,7 +359,7 @@ class PilihPaket(QDialog):
             #go to pembayaran
             pembayaran=Pembayaran()
             widget.addWidget(pembayaran)
-            widget.setCurrentIndex(widget.currentIndex()+1)
+            widget.setCurrentIndex(7)
             #self.close()
 
     def getPaket(self, paket_id):
@@ -355,17 +374,26 @@ class Pembayaran(QDialog):
     def __init__(self):
         super(Pembayaran, self).__init__()
         loadUi('transaksi.ui', self)
+        print(cur_booking_id)
+        print(self.getPaketofBooking(cur_booking_id))
         self.bayar.clicked.connect(lambda: self.pembayaran(cur_booking_id))
         self.cancel.clicked.connect(lambda: self.BatalPesanan(cur_booking_id))
         self.rincian.setText("Paket " + str(self.getPaketofBooking(cur_booking_id)['jumlah_cv']) + " CV - " + str(self.getPaketofBooking(cur_booking_id)['durasi']) + " Hari")
         self.harga.setText("Rp "+ str(self.getPaketofBooking(cur_booking_id)['harga']))
-        self.bookingNumber.setText(str(self.getBooking(cur_booking_id)['ID_Booking']))
+        self.bookingNumber.setText("#" + str(self.getBooking(cur_booking_id)['ID_Booking']))
+        self.reloadUi()
+
+    def reloadUi(self):
+        self.rincian.setText("Paket " + str(self.getPaketofBooking(cur_booking_id)['jumlah_cv']) + " CV - " + str(self.getPaketofBooking(cur_booking_id)['durasi']) + " Hari")
+        self.harga.setText("Rp "+ str(self.getPaketofBooking(cur_booking_id)['harga']))
+        self.bookingNumber.setText("#" + str(self.getBooking(cur_booking_id)['ID_Booking']))
+    
 
     def pembayaran(self,booking_id):
         req = requests.post(f'http://127.0.0.1:8000/create-transaksi?booking_id={booking_id}')
         if booking_id:
             print("berhasil melakukan pembayaran untuk No.Booking "+str(booking_id))
-            self.close()
+            widget.setCurrentIndex(5)
 
     def BatalPesanan(self, booking_id):
         req = requests.delete(f'http://127.0.0.1:8000/delete-booking-by-booking_id?booking_id={booking_id}')
@@ -373,7 +401,7 @@ class Pembayaran(QDialog):
             print("berhasil membatalkan pesanan dengan No. Booking "+str(booking_id))
             pilihpaket = PilihPaket()
             widget.addWidget(pilihpaket)
-            widget.setCurrentIndex(widget.currentIndex()+1)
+            widget.setCurrentIndex(6)
             #self.close()
 
     def getPaketofBooking(self, booking_id):
@@ -466,7 +494,7 @@ widget.addWidget(Pembayaran()) #Index jadi 7
 widget.addWidget(MainReviewer1()) #Index jadi 8
 widget.addWidget(MainReviewer2()) #Index jadi 9
 widget.setCurrentIndex(0) 
-widget.setFixedWidth(1600)
-widget.setFixedHeight(900)
+widget.setFixedWidth(1280)
+widget.setFixedHeight(720)
 widget.show()
 app.exec_()
