@@ -364,7 +364,7 @@ async def add_transaksi(booking_id: int):
         raise HTTPException(
 	        status_code=404, detail=f'Gagal melakukan transaksi')
     return {"message" : "Berhasil melakukan pembayaran untuk id booking " +str(booking_id)}
-    
+
 #Stella
 def verify_password(plain_password, hashedPassword):
     return pwd_context.verify(plain_password, hashedPassword)
@@ -460,3 +460,27 @@ async def register_sql(name: str, email: str, password: str, reenterpass: str, n
         return('Success')
     else:
         return('Password Tidak Sama!')
+
+
+@app.get('/reviewerbookingdia', tags=["ReviewCV"])
+# async def read_all_booking(current_user: User = Depends(get_current_active_user)):
+async def review_booking():
+    item = cur.execute('SELECT b."ID_Booking", DATE(b."tgl_pesan") as tgl, r."isDone" FROM booking b, review r WHERE r."ID_Booking"=b."ID_Booking" AND r."ID_Reviewer"=1')
+    result = item.fetchall()
+    return result
+
+#halaman awal booking yg blm direview siapapun
+@app.get('/reviewerbooking', tags=["ReviewCV"])
+# async def read_all_booking(current_user: User = Depends(get_current_active_user)):
+async def read_all_booking():
+    item = cur.execute('SELECT "ID_Booking", DATE("tgl_pesan") as tgl FROM booking WHERE "ID_Booking" NOT IN (SELECT b."ID_Booking" FROM booking b, review r WHERE r."ID_Booking"=b."ID_Booking")')
+    result = item.fetchall()
+    return result
+
+# #pilih booking - masih salah
+# @app.post('/reviewerpilihbooking/{id_booking}', tags=["ReviewCV"])
+# async def choose_booking(id_booking:int, id_reviewer:int):
+#     values = (id_reviewer,id_booking)
+#     query = 'INSERT INTO review ("ID_Reviewer", "ID_Booking", "isDone") VALUES (%s,%s,false)'
+#     item = cur.execute(query, values)
+#     return('Success')
