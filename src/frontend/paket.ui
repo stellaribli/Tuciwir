@@ -99,6 +99,9 @@ border-radius: 16px;</string>
       <height>41</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
      <string notr="true">font: 81 12pt &quot;Mulish ExtraBold&quot;;
 color: white;
@@ -201,6 +204,9 @@ border-radius: 16px;</string>
       <height>41</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="styleSheet">
      <string notr="true">font: 81 12pt &quot;Mulish ExtraBold&quot;;
 color: white;
@@ -302,6 +308,9 @@ border-radius: 16px;</string>
       <width>131</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">font: 81 12pt &quot;Mulish ExtraBold&quot;;

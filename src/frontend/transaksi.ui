@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>950</width>
+    <width>960</width>
     <height>558</height>
    </rect>
   </property>
@@ -178,10 +178,10 @@ background-color: rgb(232, 232, 232);</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="bayar">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>150</x>
       <y>290</y>
       <width>121</width>
       <height>41</height>
@@ -195,6 +195,9 @@ background-color: rgb(232, 232, 232);</string>
       <italic>false</italic>
       <bold>false</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">font: 81 12pt &quot;Mulish ExtraBold&quot;;
@@ -221,7 +224,7 @@ border-radius: 10px</string>
     <property name="title">
      <string/>
     </property>
-    <widget class="QLabel" name="bayar">
+    <widget class="QLabel" name="titlePembayaran">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -268,7 +271,7 @@ border-radius: 10px</string>
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="cancel">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -286,9 +289,12 @@ border-radius: 10px</string>
      <bold>false</bold>
     </font>
    </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="styleSheet">
     <string notr="true">font: 81 11pt &quot;Mulish ExtraBold&quot;;
-color: rgb(113, 113, 113);
+color: rgb(97, 97, 97);
 background-color: rgb(236, 236, 236);
 border-radius: 10px</string>
    </property>

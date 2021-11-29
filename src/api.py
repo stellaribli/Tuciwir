@@ -223,6 +223,18 @@ async def get_paket(paket_id: int):
     raise HTTPException(
 		status_code=404, detail=f'Paket not found!')
 
+@app.get("/paket-of-booking", tags=["Get"])
+async def get_paket_of_booking(booking_id: int):
+    formula = 'select b."ID_Booking", p."ID_Paket", p.jumlah_cv, p.harga, p.durasi from booking b, paket p where b."ID_Paket" = p."ID_Paket" and b."ID_Booking" = %s'
+    try:
+        item = cur.execute(formula, booking_id)
+        result = item.fetchone()
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+		    status_code=404, detail=f'Query Error!')
+    return result
+
 @app.get("/booking", tags=["Get"])
 async def get_all_booking():
     item = cur.execute('SELECT * FROM booking')
