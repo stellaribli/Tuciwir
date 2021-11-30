@@ -132,7 +132,7 @@ padding-bottom:15px;</string>
    <property name="geometry">
     <rect>
      <x>950</x>
-     <y>270</y>
+     <y>310</y>
      <width>300</width>
      <height>270</height>
     </rect>
@@ -151,7 +151,7 @@ padding-bottom:15px;</string>
    <property name="geometry">
     <rect>
      <x>980</x>
-     <y>310</y>
+     <y>340</y>
      <width>231</width>
      <height>141</height>
     </rect>
@@ -175,7 +175,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>1030</x>
-     <y>460</y>
+     <y>490</y>
      <width>151</width>
      <height>41</height>
     </rect>
@@ -193,7 +193,7 @@ border-radius: 10px;</string>
    <property name="geometry">
     <rect>
      <x>980</x>
-     <y>380</y>
+     <y>410</y>
      <width>241</width>
      <height>51</height>
     </rect>

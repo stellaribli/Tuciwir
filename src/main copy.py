@@ -244,7 +244,6 @@ class HomeScreen(QMainWindow):
     
 
     def goToBooking(self):
-        
         pesan = PilihPaket()
         widget.addWidget(pesan)
         widget.setCurrentWidget(pesan)
