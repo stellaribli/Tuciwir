@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1440</width>
-    <height>855</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,13 +16,16 @@
   <property name="styleSheet">
    <string notr="true">background-color: #fff;</string>
   </property>
+  <property name="inputMethodHints">
+   <set>Qt::ImhFormattedNumbersOnly</set>
+  </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>630</x>
-     <y>140</y>
-     <width>231</width>
-     <height>41</height>
+     <x>460</x>
+     <y>90</y>
+     <width>391</width>
+     <height>71</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -32,12 +35,15 @@ font: 30pt &quot;Mulish&quot;;</string>
    <property name="text">
     <string>Registrasi Akun</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="email">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>260</y>
+     <x>450</x>
+     <y>240</y>
      <width>401</width>
      <height>41</height>
     </rect>
@@ -62,8 +68,8 @@ padding-left:15px;</string>
   <widget class="QLineEdit" name="password">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>460</y>
+     <x>450</x>
+     <y>440</y>
      <width>401</width>
      <height>41</height>
     </rect>
@@ -91,17 +97,24 @@ padding-left:15px;</string>
   <widget class="QPushButton" name="signupbutton">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>570</y>
+     <x>450</x>
+     <y>540</y>
      <width>401</width>
      <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: #1D2D5E; color:#FFFFFF;
-font: 15pt &quot;Mulish&quot;;
-border-radius: 13.25760269165039px;
-border: 1.4px solid #2B3242;</string>
+    <string notr="true">QPushButton{ 
+	background-color: #1D2D5E; color:#FFFFFF;
+	font: 15pt &quot;Mulish&quot;;
+	border-radius: 13.25760269165039px;
+	border: 1.4px solid #2B3242;
+}
+
+ QPushButton:hover {
+	background-color: #4A577E; color:#fff;
+	border: 1.4px solid #2B3242;
+ }</string>
    </property>
    <property name="text">
     <string>Daftar</string>
@@ -110,8 +123,8 @@ border: 1.4px solid #2B3242;</string>
   <widget class="QLineEdit" name="confirmpass">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>510</y>
+     <x>450</x>
+     <y>490</y>
      <width>401</width>
      <height>41</height>
     </rect>
@@ -140,14 +153,14 @@ padding-left:15px;</string>
    <property name="geometry">
     <rect>
      <x>760</x>
-     <y>620</y>
-     <width>51</width>
+     <y>590</y>
+     <width>91</width>
      <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">color:#000000;
-font: 15pt &quot;Mulish&quot;;
+font: 14pt &quot;Mulish&quot;;
 Border: 0px;</string>
    </property>
    <property name="text">
@@ -157,15 +170,15 @@ Border: 0px;</string>
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>650</x>
-     <y>620</y>
-     <width>91</width>
+     <x>460</x>
+     <y>590</y>
+     <width>111</width>
      <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">color:#000000;
-font: 14pt &quot;Mulish&quot;;
+font: 12pt &quot;Mulish&quot;;
 </string>
    </property>
    <property name="text">
@@ -175,14 +188,14 @@ font: 14pt &quot;Mulish&quot;;
   <widget class="QLineEdit" name="date">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>310</y>
+     <x>450</x>
+     <y>290</y>
      <width>121</width>
      <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"> font: 15pt &quot;Mulish&quot;;color:#1D2D5E; 
+    <string notr="true"> font: 12pt &quot;Mulish&quot;;color:#1D2D5E; 
 height: 47.76695251464844px;
 width: 405px;
 left: 538px;
@@ -192,8 +205,14 @@ border: 1.4px solid #2B3242;
 padding-left:15px;
 padding-right:15px;</string>
    </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="maxLength">
+    <number>2</number>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -202,37 +221,11 @@ padding-right:15px;</string>
     <string>Date (XX)</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="jeniskelamin">
-   <property name="geometry">
-    <rect>
-     <x>540</x>
-     <y>360</y>
-     <width>401</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 15pt &quot;Mulish&quot;;color:#1D2D5E; 
-height: 47.76695251464844px;
-width: 376.5159912109375px;
-left: 538px;
-top: 229px;
-border-radius: 13.25760269165039px;
-border: 1.4px solid #2B3242;
-padding-left:15px;</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="placeholderText">
-    <string>Jenis Kelamin (Female/Male)</string>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="nomorhp">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>410</y>
+     <x>450</x>
+     <y>390</y>
      <width>401</width>
      <height>41</height>
     </rect>
@@ -247,8 +240,14 @@ border-radius: 13.25760269165039px;
 border: 1.4px solid #2B3242;
 padding-left:15px;</string>
    </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="maxLength">
+    <number>15</number>
    </property>
    <property name="placeholderText">
     <string>Nomor Handphone</string>
@@ -257,8 +256,8 @@ padding-left:15px;</string>
   <widget class="QLineEdit" name="namalengkap">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>210</y>
+     <x>450</x>
+     <y>190</y>
      <width>401</width>
      <height>41</height>
     </rect>
@@ -283,8 +282,8 @@ padding-left:15px;</string>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>900</x>
-     <y>320</y>
+     <x>750</x>
+     <y>300</y>
      <width>31</width>
      <height>21</height>
     </rect>
@@ -299,14 +298,14 @@ padding-left:15px;</string>
   <widget class="QLineEdit" name="month">
    <property name="geometry">
     <rect>
-     <x>670</x>
-     <y>310</y>
+     <x>580</x>
+     <y>290</y>
      <width>121</width>
      <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"> font: 15pt &quot;Mulish&quot;;color:#1D2D5E; 
+    <string notr="true"> font: 12pt &quot;Mulish&quot;;color:#1D2D5E; 
 height: 47.76695251464844px;
 width: 405px;
 left: 538px;
@@ -318,6 +317,9 @@ padding-right:15px;</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="maxLength">
+    <number>2</number>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -329,14 +331,14 @@ padding-right:15px;</string>
   <widget class="QLineEdit" name="year">
    <property name="geometry">
     <rect>
-     <x>800</x>
-     <y>310</y>
+     <x>710</x>
+     <y>290</y>
      <width>141</width>
      <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"> font: 15pt &quot;Mulish&quot;;color:#1D2D5E; 
+    <string notr="true"> font: 12pt &quot;Mulish&quot;;color:#1D2D5E; 
 height: 47.76695251464844px;
 width: 405px;
 left: 538px;
@@ -349,6 +351,9 @@ padding-right:15px;</string>
    <property name="text">
     <string/>
    </property>
+   <property name="maxLength">
+    <number>4</number>
+   </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
@@ -357,13 +362,22 @@ padding-right:15px;</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="Female">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>460</y>
-     <width>101</width>
-     <height>31</height>
+     <x>450</x>
+     <y>340</y>
+     <width>191</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 15pt &quot;Mulish&quot;;color:#1D2D5E; 
@@ -373,7 +387,8 @@ left: 538px;
 top: 229px;
 border-radius: 13.25760269165039px;
 border: 1.4px solid #2B3242;
-padding-left:15px;</string>
+padding-left:50%;
+padding-right:50%;</string>
    </property>
    <property name="text">
     <string>Female</string>
@@ -382,10 +397,10 @@ padding-left:15px;</string>
   <widget class="QRadioButton" name="Male">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>460</y>
-     <width>101</width>
-     <height>31</height>
+     <x>660</x>
+     <y>340</y>
+     <width>191</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -396,10 +411,29 @@ left: 538px;
 top: 229px;
 border-radius: 13.25760269165039px;
 border: 1.4px solid #2B3242;
-padding-left:15px;</string>
+padding-left:50%;
+padding-right:50%;</string>
    </property>
    <property name="text">
     <string>Male</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="loginaccbutton_2">
+   <property name="geometry">
+    <rect>
+     <x>1390</x>
+     <y>870</y>
+     <width>201</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#000000;
+font: 15pt &quot;Mulish&quot;;
+Border: 0px;</string>
+   </property>
+   <property name="text">
+    <string>Login Sebagai Admin</string>
    </property>
   </widget>
  </widget>
@@ -409,7 +443,6 @@ padding-left:15px;</string>
   <tabstop>date</tabstop>
   <tabstop>month</tabstop>
   <tabstop>year</tabstop>
-  <tabstop>jeniskelamin</tabstop>
   <tabstop>nomorhp</tabstop>
   <tabstop>password</tabstop>
   <tabstop>confirmpass</tabstop>

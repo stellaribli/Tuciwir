@@ -33,35 +33,33 @@ background-color: #FFFFFF;
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>200</y>
-     <width>441</width>
+     <y>210</y>
+     <width>401</width>
      <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #FFFFFF; color:#000000;
-font: 16pt &quot;Mulish&quot;;
+font: 12pt &quot;Mulish&quot;;
 border-radius: 10px;
-padding-bottom:15px;
-
-</string>
+padding-bottom:15px;</string>
    </property>
    <property name="text">
-    <string>Daftar Pesanan</string>
+    <string>Sedang Diproses</string>
    </property>
   </widget>
   <widget class="QTextBrowser" name="textjudul">
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>110</y>
+     <y>120</y>
      <width>361</width>
      <height>81</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">color:#000000;
-font: 18px &quot;Mulish&quot;;
+font: 14px &quot;Mulish&quot;;
 border: 0px;
 </string>
    </property>
@@ -69,29 +67,29 @@ border: 0px;
     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Mulish'; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Riwayat Pesanan&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Mulish'; font-size:14px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Riwayat Pesanan Akselzen&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QTableWidget" name="tabelsemuapesanan">
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>250</y>
-     <width>861</width>
-     <height>450</height>
+     <y>260</y>
+     <width>781</width>
+     <height>411</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 14pt &quot;Mulish&quot;;
+    <string notr="true">font: 12pt &quot;Mulish&quot;;
 border-top: 1px solid #1D2D5E;
 border-bottom: 1px solid #1D2D5E;</string>
    </property>
-   <property name="tabKeyNavigation">
-    <bool>true</bool>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
    </property>
-   <property name="cornerButtonEnabled">
-    <bool>false</bool>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
    </property>
    <column>
     <property name="text">
@@ -112,29 +110,29 @@ border-bottom: 1px solid #1D2D5E;</string>
   <widget class="QPushButton" name="buttonpesanandia">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>200</y>
-     <width>441</width>
+     <x>430</x>
+     <y>210</y>
+     <width>401</width>
      <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #1D2D5E; color:#FFFFFF;
-font: 16pt &quot;Mulish&quot;;
+font: 12pt &quot;Mulish&quot;;
 border-radius: 10px;
 padding-bottom:15px;</string>
    </property>
    <property name="text">
-    <string>Pesanan Pilihan Anda</string>
+    <string>Pesanan Selesai</string>
    </property>
   </widget>
   <widget class="QPushButton" name="buttonpesanandia_2">
    <property name="geometry">
     <rect>
-     <x>950</x>
-     <y>310</y>
-     <width>300</width>
-     <height>270</height>
+     <x>870</x>
+     <y>320</y>
+     <width>361</width>
+     <height>271</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -150,16 +148,16 @@ padding-bottom:15px;</string>
   <widget class="QTextBrowser" name="textjudul_2">
    <property name="geometry">
     <rect>
-     <x>980</x>
-     <y>340</y>
-     <width>231</width>
-     <height>141</height>
+     <x>930</x>
+     <y>360</y>
+     <width>261</width>
+     <height>111</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #1D2D5E;
 color:#FACE11;
-font: 16px &quot;Mulish&quot;;
+font: 10px &quot;Mulish&quot;;
 border: 0px;
 </string>
    </property>
@@ -167,39 +165,47 @@ border: 0px;
     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Mulish'; font-size:16px; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Pilih Pesanan!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Mulish'; font-size:10px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Pilih Pesanan!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="buttonpesanandia_3">
+  <widget class="QPushButton" name="buttonunduh">
    <property name="geometry">
     <rect>
-     <x>1030</x>
-     <y>490</y>
+     <x>970</x>
+     <y>510</y>
      <width>151</width>
      <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #FACE11; color:#000000;
-font: 11pt &quot;Mulish&quot;;
+font: 8pt &quot;Mulish&quot;;
 border-radius: 10px;</string>
    </property>
    <property name="text">
-    <string>Upload Review</string>
+    <string>Unduh Hasil</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="inputpilih">
    <property name="geometry">
     <rect>
-     <x>980</x>
-     <y>410</y>
+     <x>930</x>
+     <y>430</y>
      <width>241</width>
      <height>51</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-radius: 10px;</string>
+    <string notr="true">border-radius: 10px;
+font: 18px &quot;Mulish&quot;;
+padding-left:10px;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>ID Pesanan</string>
    </property>
   </widget>
   <widget class="QFrame" name="frame_2">
@@ -315,20 +321,20 @@ Border: 0px;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>img/logo aksel.png</pixmap>
+     <pixmap>../Downloads/img/logo aksel.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
    </widget>
   </widget>
+  <zorder>buttonpesanan</zorder>
+  <zorder>buttonpesanandia</zorder>
+  <zorder>textjudul</zorder>
+  <zorder>tabelsemuapesanan</zorder>
   <zorder>buttonpesanandia_2</zorder>
   <zorder>textjudul_2</zorder>
-  <zorder>buttonpesanan</zorder>
-  <zorder>textjudul</zorder>
-  <zorder>buttonpesanandia</zorder>
-  <zorder>tabelsemuapesanan</zorder>
-  <zorder>buttonpesanandia_3</zorder>
+  <zorder>buttonunduh</zorder>
   <zorder>inputpilih</zorder>
   <zorder>frame_2</zorder>
  </widget>
