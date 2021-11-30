@@ -90,8 +90,11 @@ class Login(QDialog):
                 url = 'http://127.0.0.1:8000/ambilDataReviewer?' + parsed
                 hasil =  requests.get(url)
                 currentUser = hasil.json()
+                cur_user_ID =  currentUser['ID_Reviewer']
                 # print(currentUser)
-                widget.setCurrentIndex(3) #nanti diganti ke admin
+                reviewer1 = MainReviewer1()
+                widget.addWidget(reviewer1)
+                widget.setCurrentWidget(reviewer1)
                 
                 self.email.setText("")
                 self.password.setText("")
@@ -204,7 +207,7 @@ class AboutUs(QDialog):
         # self.usr()
         # self.show()
         # self.logoutbutton.clicked.connect(currentName) 
-        self.logoutbutton.clicked.connect(self.gotologin)     
+        self.logoutbutton.clicked.connect(self.goToLogin)     
         self.aboutmebutton.clicked.connect(self.gotoaboutus) 
         self.layananbutton_4.clicked.connect(self.goToHome)
         
@@ -213,7 +216,7 @@ class AboutUs(QDialog):
     #     print(currentName)
     #     self.show()
 
-    def gotologin(self):
+    def goToLogin(self):
         global loggedin
         loggedin = False
         widget.setCurrentIndex(0)
@@ -237,6 +240,7 @@ class HomeScreen(QMainWindow):
         self.bookingButton.clicked.connect(self.goToBooking)
         self.statusPesananButton.clicked.connect(self.goToStatus)
         self.aboutmebutton.clicked.connect(self.goToAbout)
+        self.logoutbutton.clicked.connect(self.goToLogin)
     
 
     def goToBooking(self):
@@ -250,6 +254,11 @@ class HomeScreen(QMainWindow):
 
     def goToAbout(self):
         widget.setCurrentIndex(3)
+    
+    def goToLogin(self):
+        global loggedin
+        loggedin = False
+        widget.setCurrentIndex(0)
 
 class UploadCV(QDialog):
     def __init__(self):
@@ -277,16 +286,6 @@ class UploadCV(QDialog):
         self.layananbutton_4.clicked.connect(self.goToHomeScreen)
         self.aboutmebutton.hide()
         self.layananbutton_4.hide()
-        self.reloadUi()
-
-    def reloadUi(self):
-        self.dataPaket = self.getPaketBooking(cur_booking_id)
-        self.submitBookingButton.clicked.connect(lambda: self.submitBooking(cur_booking_id))
-        self.jmlCV.setText(str(self.dataPaket.json()['jumlah_cv']) + "CV")
-        self.jmlHari.setText(str(self.dataPaket.json()['durasi']) + " Hari")
-        self.rincian.setText("Paket " + str(self.dataPaket.json()['jumlah_cv']) + " CV " + str(self.dataPaket.json()['durasi']) + " Hari")
-        self.harga.setText("Rp" + str(self.dataPaket.json()['harga']))
-        self.bookingNumber.setText("#" + str(self.dataPaket.json()['ID_Booking']))
     
     def uploadCV(self):
         fileName, _ = QFileDialog.getOpenFileName(self, "Upload CV File", "", "PDF Files (*.pdf)")
@@ -340,10 +339,11 @@ class UploadCV(QDialog):
         # print(req.text)
 
     def goToHomeScreen(self):
-        widget.setCurrentIndex(0)
+        widget.setCurrentIndex(4)
 
     def goToAboutMe(self):
         widget.setCurrentIndex(3)
+
 
 
 #Agunk
@@ -369,6 +369,7 @@ class PilihPaket(QDialog):
         #NAVBAR
         self.layananbutton_4.clicked.connect(lambda: self.goToHomepage())
         self.aboutmebutton.clicked.connect(lambda: self.goToAboutMe())
+        self.logoutbutton.clicked.connect(self.goToLogin)
         
     def pesanpaket(self, paket_id, tuteers_id):
         global cur_booking_id
@@ -381,11 +382,6 @@ class PilihPaket(QDialog):
             booking_id = int(dataBooking.json())
             cur_booking_id = booking_id
             print("id Booking saat ini " + str(cur_booking_id))
-
-            #go to pembayaran
-            # pembayaran=Pembayaran()
-            # widget.addWidget(pembayaran)
-            
             pembayaran = Pembayaran()
             widget.addWidget(pembayaran)
             widget.setCurrentWidget(pembayaran)
@@ -405,6 +401,11 @@ class PilihPaket(QDialog):
 
     def goToAboutMe(self):
         widget.setCurrentIndex(3)
+    
+    def goToLogin(self):
+        global loggedin
+        loggedin = False
+        widget.setCurrentIndex(0)
 
 class Pembayaran(QDialog):
     def __init__(self):
@@ -459,15 +460,22 @@ class MainReviewer2(QDialog, QMainWindow):
         loadUi('reviewercus.ui',self)  
         # ui = MainReviewer()
         # ui.setupUi(self)
-        self.tabelsemuapesanan.setColumnWidth(0,200) 
-        self.tabelsemuapesanan.setColumnWidth(1,400) 
-        self.tabelsemuapesanan.setColumnWidth(2,300) 
+        header = self.tabelsemuapesanan.horizontalHeader()       
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+        # self.tabelsemuapesanan.setColumnWidth(0,220) 
+        # self.tabelsemuapesanan.setColumnWidth(1,290) 
+        # self.tabelsemuapesanan.setColumnWidth(2,320) 
+        # self.tabelsemuapesanan.setColumnWidth(3,170)  
+        # self.tabelsemuapesanan.setColumnWidth(4,170)  
         self.buttonpesanan.clicked.connect(self.gotomain1)
         self.load_data()
 
+
     def load_data(self):
         headers = {'Accept': 'application/json'}
-        req = requests.get('http://127.0.0.1:8000/reviewerbookingdia?reviewer_id=1', headers=headers)
+        req = requests.get(f'http://127.0.0.1:8000/reviewerbookingdia?reviewer_id={cur_user_ID}', headers=headers)
         booking_data = req.json()
         self.tabelsemuapesanan.setRowCount(len(booking_data))
         row = 0
@@ -480,6 +488,12 @@ class MainReviewer2(QDialog, QMainWindow):
             self.tabelsemuapesanan.setItem(row, 0, QtWidgets.QTableWidgetItem(str(booking['ID_Booking'])))
             self.tabelsemuapesanan.setItem(row, 1, QtWidgets.QTableWidgetItem(str(booking['tgl'])))
             self.tabelsemuapesanan.setItem(row, 2, QtWidgets.QTableWidgetItem(a))
+            # btn = QPushButton(self.tabelsemuapesanan)
+            # btn1 = QPushButton(self.tabelsemuapesanan)
+            # btn.setText('Unduh')
+            # btn1.setText('Unggah')
+            # self.tabelsemuapesanan.setCellWidget(row, 3, btn)
+            # self.tabelsemuapesanan.setCellWidget(row, 4, btn1)
             row += 1
     
     def gotomain1(self):
@@ -493,9 +507,10 @@ class MainReviewer1(QDialog, QMainWindow):
         loadUi('reviewerall.ui',self)  
         # ui = MainReviewer()
         # ui.setupUi(self)
-        self.tabelsemuapesanan.setColumnWidth(0,200) 
-        self.tabelsemuapesanan.setColumnWidth(1,400) 
-        self.tabelsemuapesanan.setColumnWidth(2,300) 
+        self.tabelsemuapesanan.setColumnWidth(0,220) 
+        self.tabelsemuapesanan.setColumnWidth(1,290) 
+        self.tabelsemuapesanan.setColumnWidth(2,320)
+        # self.tabelsemuapesanan.setColumnWidth(3,170)  
         self.buttonpesanandia.clicked.connect(self.gotomain2)
         self.load_data1()
 
@@ -510,16 +525,17 @@ class MainReviewer1(QDialog, QMainWindow):
             self.tabelsemuapesanan.setItem(row, 0, QtWidgets.QTableWidgetItem(str(booking['ID_Booking'])))
             self.tabelsemuapesanan.setItem(row, 1, QtWidgets.QTableWidgetItem(str(booking['tgl'])))
             self.tabelsemuapesanan.setItem(row, 2, QtWidgets.QTableWidgetItem(a))
-            row += 1
             # btn = QPushButton(self.tabelsemuapesanan)
-            # btn.setText('add')
-            # self.tabelsemuapesanan.setCellWidget(booking, 4, btn)
+            # btn.setText('Pilih')
+            # self.tabelsemuapesanan.setCellWidget(row, 3, btn)
+            row += 1
 
     def gotomain2(self):
         mainreviewer2=MainReviewer2()
         widget.addWidget(mainreviewer2)
-        widget.setCurrentIndex(widget.currentIndex()+1)
-    
+        widget.setCurrentWidget(mainreviewer2)
+
+
 # widget.addWidget(UploadCV()) #Index jadi 5
 # widget.addWidget(PilihPaket()) #Index jadi 6
 # widget.addWidget(Pembayaran()) #Index jadi 7
@@ -531,8 +547,8 @@ widget.addWidget(CreateAcc()) #Index jadi 1
 widget.addWidget(ResetPassword()) #Index jadi 2
 widget.addWidget(AboutUs())  #Index jadi 3
 widget.addWidget(HomeScreen())  #Index jadi 4
-widget.addWidget(MainReviewer1()) #Index jadi 5
-widget.addWidget(MainReviewer2()) #Index jadi 6
+# widget.addWidget(MainReviewer1()) #Index jadi 5
+# widget.addWidget(MainReviewer2()) #Index jadi 6
 widget.setCurrentIndex(0) 
 widget.setFixedWidth(1280)
 widget.setFixedHeight(720)
