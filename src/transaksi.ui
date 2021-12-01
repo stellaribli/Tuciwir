@@ -363,7 +363,7 @@ border-radius: 10px</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>img/logo aksel.png</pixmap>
+     <pixmap>../img/logo aksel.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>

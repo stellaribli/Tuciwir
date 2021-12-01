@@ -50,7 +50,7 @@
 font: 63 12pt &quot;Mulish SemiBold&quot;;</string>
     </property>
     <property name="text">
-     <string>©️2021 - Aksel CV Review - Tugas Besar RPL Kelompok 9</string>
+     <string>©️2021 - Tuciwir Aksel CV Review - Tugas Besar RPL Kelompok 9</string>
     </property>
    </widget>
    <widget class="QFrame" name="frame">
@@ -245,7 +245,7 @@ Border: 0px;</string>
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>img/logo aksel.png</pixmap>
+      <pixmap>../img/logo aksel.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>

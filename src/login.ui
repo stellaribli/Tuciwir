@@ -198,6 +198,42 @@ Border: 0px;</string>
     <string>Reset Password</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>60</y>
+     <width>221</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../img/logo aksel.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>130</y>
+     <width>291</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #2B3242;
+font: 24pt &quot;Mulish&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Tuciwir CV Review</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

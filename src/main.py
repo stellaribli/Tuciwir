@@ -30,7 +30,6 @@ import shutil
 import json
 import os
 import os.path
-import requests
 
 
 cur_booking_id = 1
