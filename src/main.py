@@ -569,7 +569,6 @@ class MainReviewer2(QDialog, QMainWindow):
             self, "Upload CV File", "", "PDF Files (*.pdf)")
         if fileName:
             self.uploadedFile = fileName
-            QMessageBox.information(self, 'Success', 'CV has been uploaded')
             self.submitReview(booking_id)
 
     def submitReview(self, booking_id):
