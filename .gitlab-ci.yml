@@ -10,8 +10,8 @@ pylintTest:
   - pylint --disable=C -d R0913 src/ #running pylint test on src/modules/ directory
   - echo "Pylint test succeeded"
 
-# pytestTest:
-#   stage: PytestTest
-#   script:
-#   - pytest src/test/ #when running test on pytest in a directory, the test filename should start with "test_"
-#   - echo "Pytest test succeeded"
+pytestTest:
+  stage: PytestTest
+  script:
+  - pytest src/test/ #when running test on pytest in a directory, the test filename should start with "test_"
+  - echo "Pytest test succeeded"
