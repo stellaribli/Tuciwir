@@ -3,6 +3,7 @@ before_script:
 
 stages:
   - PylintTest
+  - PytestTest
 
 pylintTest:
   stage: PylintTest
