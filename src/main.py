@@ -3,30 +3,17 @@ from PyQt5.QtWidgets import QFileDialog, QPushButton, QDialog, QApplication, QWi
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from typing import List
 import requests
 import urllib
-import json
 from PyQt5 import QtCore, QtGui, QtWidgets
-import PyPDF2
-import os
 from PyQt5.QtWidgets import QApplication, QFileDialog, QDialog, QMessageBox, QPushButton, QLabel
 sys.path.insert(0, './src')
 import os
-import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QLabel, QMainWindow
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
-from re import search
 from typing import List
-from fastapi import Depends, FastAPI, HTTPException, UploadFile, File
-from sqlalchemy.orm import Session
-import psycopg2
-import sys
-sys.path.insert(0, './src')
-from fastapi.responses import FileResponse
-import shutil
 import json
 import os
 import os.path
