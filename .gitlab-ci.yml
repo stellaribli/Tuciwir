@@ -1,15 +1,11 @@
+image: "python:3.7"
+
 before_script:
   - python --version
+  - pip install pytest
 
 stages:
-  - PylintTest
   - PytestTest
-
-pylintTest:
-  stage: PylintTest
-  script:
-  - pylint --disable=C -d R0913 src/ #running pylint test on src/modules/ directory
-  - echo "Pylint test succeeded"
 
 pytestTest:
   stage: PytestTest
