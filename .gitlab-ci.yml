@@ -1,17 +1,14 @@
+image: "python:3.7"
+
 before_script:
   - python --version
+  - pip install pytest
 
 stages:
-  - PylintTest
+  - PytestTest
 
-pylintTest:
-  stage: PylintTest
+pytestTest:
+  stage: PytestTest
   script:
-  - pylint --disable=C -d R0913 src/ #running pylint test on src/modules/ directory
-  - echo "Pylint test succeeded"
-
-# pytestTest:
-#   stage: PytestTest
-#   script:
-#   - pytest src/test/ #when running test on pytest in a directory, the test filename should start with "test_"
-#   - echo "Pytest test succeeded"
+  - pytest src/test/ #when running test on pytest in a directory, the test filename should start with "test_"
+  - echo "Pytest test succeeded"
