@@ -711,8 +711,7 @@ class PesananTuteers2(QDialog, QMainWindow):
         try:
             request = requests.get(
                 f'http://tuciwir.azurewebsites.net/download-cv-review?booking_id={booking_id}', headers=header)
-            filename_raw = request.headers['Content-Disposition'].split('filename="')[
-                1]
+            filename_raw = request.headers['Content-Disposition'].split('filename="')[1]
             filename = filename_raw.split('"')[0]
             options = QFileDialog.Options()
             try:
@@ -726,7 +725,8 @@ class PesananTuteers2(QDialog, QMainWindow):
             except:
                 QMessageBox.information(
                     self, 'Fail', 'Cannot download CV! File Error!')
-        except:
+        except Exception as e:
+            print(e)
             QMessageBox.information(
                 self, 'Fail', 'Cannot download Review! Either Review is not uploaded or internal server error!')
 
