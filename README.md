@@ -8,7 +8,7 @@ Tuteers dapat memesan CV Review dengan memilih paket, membayar, dan mengupload C
 3. Aplikasi akan terbuka dan dapat dipakai
 
 ## Daftar Modul
-## Bukti tampilan layar ada pada folder doc dengan format PNG
+* Bukti tampilan layar ada pada folder doc dengan format PNG
 1. Manajemen akun -  Stella Ribli (18219027) - login, register, reset password
 2. Pilih pesanan - Albertus Agung S (18219066) - pembayaran, pilihanpaket
 3. Riwayat pesanan - Azka Alya Ramadhan (18219101) - riwayatdiproses, riwayatselesai
