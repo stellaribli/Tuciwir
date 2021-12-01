@@ -40,6 +40,14 @@ currentUser = ''
 currentName = ''
 booking_id = 2
 
+
+if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+
+if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+
+
 #Stella
 class Login(QDialog):
     def __init__(self):
@@ -683,7 +691,7 @@ class PesananTuteers2(QDialog, QMainWindow):
             except:
                 QMessageBox.information(self, 'Fail', 'Cannot download CV! File Error!')
         except:
-            QMessageBox.information(self, 'Fail', 'Cannot download Review! Either Revuew is not uploaded or internal server error!')
+            QMessageBox.information(self, 'Fail', 'Cannot download Review! Either Review is not uploaded or internal server error!')
         
     
     def upload_cv_review(self):
@@ -729,11 +737,10 @@ class PesananTuteers1(QDialog, QMainWindow):
         booking_data = req.json()
         self.tabelsemuapesanan.setRowCount(len(booking_data))
         row = 0
-        a="Belum Direview"
         for booking in (booking_data):
             self.tabelsemuapesanan.setItem(row, 0, QtWidgets.QTableWidgetItem(str(booking['ID_Booking'])))
             self.tabelsemuapesanan.setItem(row, 1, QtWidgets.QTableWidgetItem(str(booking['tgl'])))
-            self.tabelsemuapesanan.setItem(row, 2, QtWidgets.QTableWidgetItem(a))
+            self.tabelsemuapesanan.setItem(row, 2, QtWidgets.QTableWidgetItem(str(booking['status'])))
             row += 1
     
     def download_cv(self):

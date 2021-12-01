@@ -322,7 +322,7 @@ Border: 0px;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../Downloads/img/logo aksel.png</pixmap>
+     <pixmap>../img/logo aksel.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
